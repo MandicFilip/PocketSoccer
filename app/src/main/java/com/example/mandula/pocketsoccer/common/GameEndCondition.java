@@ -1,5 +1,7 @@
 package com.example.mandula.pocketsoccer.common;
 
-public enum GameEndCondition {
+import java.io.Serializable;
+
+public enum GameEndCondition implements Serializable {
     GOALS, TIME;
 }

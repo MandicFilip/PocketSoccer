@@ -1,6 +1,8 @@
 package com.example.mandula.pocketsoccer.common;
 
-public class GameParameters {
+import java.io.Serializable;
+
+public class GameParameters implements Serializable {
     private String firstPlayerName;
     private String secondPlayerName;
 

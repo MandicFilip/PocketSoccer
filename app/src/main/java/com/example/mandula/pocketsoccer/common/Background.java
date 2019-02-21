@@ -1,5 +1,7 @@
 package com.example.mandula.pocketsoccer.common;
 
-public enum Background {
+import java.io.Serializable;
+
+public enum Background implements Serializable {
     HARD, GRASS, INDOOR;
 }

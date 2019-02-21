@@ -1,5 +1,7 @@
 package com.example.mandula.pocketsoccer.common;
 
-public enum Speed {
+import java.io.Serializable;
+
+public enum Speed implements Serializable {
     SLOW, MEDIUM, FAST;
 }
