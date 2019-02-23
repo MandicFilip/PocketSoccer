@@ -30,6 +30,10 @@ public class ParametersSetupActivity extends AppCompatActivity {
 
     private EditText editText;
 
+    private GameParameters passedParameters;
+
+    private GameParameters changedParameters;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +47,13 @@ public class ParametersSetupActivity extends AppCompatActivity {
         connectWithGUI();
 
         setupGUI(gameParameters);
+
+        passedParameters = gameParameters;
+        try {
+            changedParameters = (GameParameters) passedParameters.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
     }
 
     private void connectWithGUI() {
@@ -147,39 +158,83 @@ public class ParametersSetupActivity extends AppCompatActivity {
     }
 
     public void onGrassClick(View view) {
+        changedParameters.setBackground(Background.GRASS);
+    }
 
+    public void onHardClick(View view) {
+        changedParameters.setBackground(Background.HARD);
+    }
+
+    public void onIndoorClick(View view) {
+        changedParameters.setBackground(Background.INDOOR);
     }
 
     public void onGoalsClick(View view) {
+        changedParameters.setGameEndCondition(GameEndCondition.GOALS);
     }
 
     public void onTimeClick(View view) {
+        changedParameters.setGameEndCondition(GameEndCondition.TIME);
     }
 
     public void onSlowBallClick(View view) {
+        changedParameters.setBallSpeed(Speed.SLOW);
     }
 
     public void onMediumSpeedBallClick(View view) {
+        changedParameters.setBallSpeed(Speed.MEDIUM);
     }
 
     public void onFastBallClick(View view) {
+        changedParameters.setBallSpeed(Speed.FAST);
     }
 
     public void onSlowDisksClick(View view) {
+        changedParameters.setDisksSpeed(Speed.SLOW);
     }
 
     public void onMediumSpeedDisksClick(View view) {
+        changedParameters.setDisksSpeed(Speed.MEDIUM);
     }
 
     public void onFastDisksClick(View view) {
+        changedParameters.setDisksSpeed(Speed.FAST);
     }
 
     public void onChangeClick(View view) {
-    }
+        String text = editText.getText().toString();
+
+        try {
+            int num = Integer.parseInt(text);
+
+            if (changedParameters.getGameEndCondition() == GameEndCondition.GOALS) {
+                changedParameters.setGoalsLimit(num);
+            } else {
+                changedParameters.setMinutesToPlay(num);
+            }
+
+            finishMyActivity(changedParameters);
+        } catch (NumberFormatException e) {
+            //print Toast
+        }
+
+        }
 
     public void onDiscardClick(View view) {
+        finishMyActivity(passedParameters);
     }
 
     public void onDefaultClick(View view) {
+        changedParameters.setDefaultParameters();
+        setupGUI(changedParameters);
     }
+
+    private void finishMyActivity(GameParameters gameParameters) {
+        Intent intent = getIntent();
+        intent.putExtra("NEXT_PARAMETERS", gameParameters);
+
+        setResult(RESULT_OK, intent);
+        finish();
+    }
+
 }
