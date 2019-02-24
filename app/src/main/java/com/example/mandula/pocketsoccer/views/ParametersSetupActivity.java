@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
+
 import com.example.mandula.pocketsoccer.R;
 import com.example.mandula.pocketsoccer.common.Background;
 import com.example.mandula.pocketsoccer.common.GameEndCondition;
@@ -33,6 +35,11 @@ public class ParametersSetupActivity extends AppCompatActivity {
     private GameParameters passedParameters;
 
     private GameParameters changedParameters;
+
+    private RadioGroup backgroundRadioGroup;
+    private RadioGroup conditionRadioGroup;
+    private RadioGroup ballSpeedRadioGroup;
+    private RadioGroup disksSpeedRadioGroup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,87 +79,72 @@ public class ParametersSetupActivity extends AppCompatActivity {
         disksFastRadio = findViewById(R.id.disk_fast_radio_id);
 
         editText = findViewById(R.id.edit_text_parameters);
+
+        backgroundRadioGroup = findViewById(R.id.background_radio_group_id);
+        conditionRadioGroup = findViewById(R.id.game_condition_radio_group_id);
+        ballSpeedRadioGroup = findViewById(R.id.ball_speed_radio_group_id);
+        disksSpeedRadioGroup = findViewById(R.id.disks_speed_radio_group_id);
     }
 
     private void setupGUI(GameParameters gameParameters) {
         Background background = gameParameters.getBackground();
 
+        backgroundRadioGroup.clearCheck();
         switch (background) {
             case GRASS:
-                grassRadio.setFocusedByDefault(true);
-                hardRadio.setFocusedByDefault(false);
-                indoorRadio.setFocusedByDefault(false);
+                backgroundRadioGroup.check(grassRadio.getId());
                 break;
             case HARD:
-                grassRadio.setFocusedByDefault(false);
-                hardRadio.setFocusedByDefault(true);
-                indoorRadio.setFocusedByDefault(false);
+                backgroundRadioGroup.check(hardRadio.getId());
                 break;
             case INDOOR:
-                grassRadio.setFocusedByDefault(false);
-                hardRadio.setFocusedByDefault(false);
-                indoorRadio.setFocusedByDefault(true);
+                backgroundRadioGroup.check(indoorRadio.getId());
                 break;
         }
 
         GameEndCondition gameEndCondition = gameParameters.getGameEndCondition();
-
+        conditionRadioGroup.clearCheck();
         switch (gameEndCondition) {
             case TIME:
                 int minutes = gameParameters.getMinutesToPlay();
 
-                timeRadio.setFocusedByDefault(true);
-                goalsRadio.setFocusedByDefault(false);
-
+                conditionRadioGroup.check(timeRadio.getId());
                 editText.setText(Integer.toString(minutes));
                 break;
             case GOALS:
                 int goals = gameParameters.getGoalsLimit();
 
-                timeRadio.setFocusedByDefault(false);
-                goalsRadio.setFocusedByDefault(true);
-
+                conditionRadioGroup.check(goalsRadio.getId());
                 editText.setText(Integer.toString(goals));
                 break;
         }
 
         Speed ballSpeed = gameParameters.getBallSpeed();
 
+        ballSpeedRadioGroup.clearCheck();
         switch (ballSpeed) {
             case SLOW:
-                ballSlowRadio.setFocusedByDefault(true);
-                ballMediumRadio.setFocusedByDefault(false);
-                ballFastRadio.setFocusedByDefault(false);
+                ballSpeedRadioGroup.check(ballSlowRadio.getId());
                 break;
             case MEDIUM:
-                ballSlowRadio.setFocusedByDefault(false);
-                ballMediumRadio.setFocusedByDefault(true);
-                ballFastRadio.setFocusedByDefault(false);
+                ballSpeedRadioGroup.check(ballMediumRadio.getId());
                 break;
             case FAST:
-                ballSlowRadio.setFocusedByDefault(false);
-                ballMediumRadio.setFocusedByDefault(false);
-                ballFastRadio.setFocusedByDefault(true);
+                ballSpeedRadioGroup.check(ballFastRadio.getId());
                 break;
         }
 
         Speed disksSpeed = gameParameters.getDisksSpeed();
-
+        disksSpeedRadioGroup.clearCheck();
         switch (disksSpeed) {
             case SLOW:
-                disksSlowRadio.setFocusedByDefault(true);
-                disksMediumRadio.setFocusedByDefault(false);
-                disksFastRadio.setFocusedByDefault(false);
+                disksSpeedRadioGroup.check(disksSlowRadio.getId());
                 break;
             case MEDIUM:
-                disksSlowRadio.setFocusedByDefault(false);
-                disksMediumRadio.setFocusedByDefault(true);
-                disksFastRadio.setFocusedByDefault(false);
+                disksSpeedRadioGroup.check(disksMediumRadio.getId());
                 break;
             case FAST:
-                disksSlowRadio.setFocusedByDefault(false);
-                disksMediumRadio.setFocusedByDefault(false);
-                disksFastRadio.setFocusedByDefault(true);
+                disksSpeedRadioGroup.check(disksFastRadio.getId());
                 break;
         }
     }

@@ -2,7 +2,7 @@ package com.example.mandula.pocketsoccer.common;
 
 import java.io.Serializable;
 
-public class GameParameters implements Serializable {
+public class GameParameters implements Serializable, Cloneable {
     private String firstPlayerName;
     private String secondPlayerName;
 
@@ -141,42 +141,38 @@ public class GameParameters implements Serializable {
     }
 
     private static String backgroundToString(Background background) {
-        int value = 0;
-        if (background == Background.HARD) value = 1;
-        if (background == Background.INDOOR) value = 2;
-        return Integer.toString(value);
+        String ret = "GRASS";
+        if (background == Background.HARD) ret = "HARD";
+        if (background == Background.INDOOR) ret = "INDOOR";
+        return ret;
     }
 
     private static String speedToString(Speed speed) {
-        int value = 0;
-        if (speed == Speed.MEDIUM) value = 1;
-        if (speed == Speed.FAST) value = 2;
-        return Integer.toString(value);
+        String ret = "SLOW";
+        if (speed == Speed.MEDIUM) ret = "MEDIUM";
+        if (speed == Speed.FAST) ret = "FAST";
+        return ret;
     }
 
     private static String conditionToString(GameEndCondition gameEndCondition) {
-        int value = (gameEndCondition == GameEndCondition.GOALS) ? 1 : 0;
-        return Integer.toString(value);
+        return (gameEndCondition == GameEndCondition.GOALS) ? "GOALS" : "TIME";
     }
 
     private static Background stringToBackground(String s) {
-        int value = Integer.parseInt(s);
-        if (value == 0) return Background.GRASS;
-        if (value == 1) return Background.HARD;
+        if ("GRASS".equals(s)) return Background.GRASS;
+        if ("HARD".equals(s)) return Background.HARD;
         return Background.INDOOR;
     }
 
     private static Speed stringToSpeed(String s) {
-        int value = Integer.parseInt(s);
-        if (value == 0) return Speed.SLOW;
-        if (value == 1) return Speed.MEDIUM;
+        if ("SLOW".equals(s)) return Speed.SLOW;
+        if ("MEDIUM".equals(s)) return Speed.MEDIUM;
         return Speed.FAST;
     }
 
     private static GameEndCondition stringToCondition(String s) {
-        int value = Integer.parseInt(s);
-        if (value == 0) return GameEndCondition.TIME;
-        return GameEndCondition.GOALS;
+        if ("GOALS".equals(s)) return GameEndCondition.GOALS;
+        return GameEndCondition.TIME;
     }
 
     public String getFirstPlayerName() {
