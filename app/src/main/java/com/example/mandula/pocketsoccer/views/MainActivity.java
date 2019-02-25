@@ -16,6 +16,8 @@ public class MainActivity extends AppCompatActivity {
     private GameParameters gameParameters;
 
     private static final int PARAMETERS_ACTIVITY_CODE = 5;
+    private static final int PRE_GAME_ACTIVITY_CODE = 2;
+    private static final int GAME_ACTIVITY_CODE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,8 +27,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("MY_PREFERENCES", MODE_PRIVATE);
         String readValue = sharedPreferences.getString("GAME_PARAMETERS", "NONE");
 
-
-        if ("NONE".equals(readValue)) {
+        if ("NONE".equals(readValue) || readValue == null) {
             gameParameters = new GameParameters();
             gameParameters.setDefaultParameters();
         } else {
@@ -49,9 +50,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onNewGameClick(View view) {
+        Intent intent = new Intent(this, PreGameActivity.class);
+        intent.putExtra("CURRENT_PARAMETERS", gameParameters);
+        startActivityForResult(intent, PRE_GAME_ACTIVITY_CODE);
     }
 
     public void onStatisticsClick(View view) {
+        Intent intent = new Intent(this, GlobalStatisticsActivity.class);
+        startActivity(intent);
     }
 
     public void onSettingsClick(View view) {
@@ -67,7 +73,9 @@ public class MainActivity extends AppCompatActivity {
         if (resultCode != RESULT_OK) return;
 
         if (requestCode == PARAMETERS_ACTIVITY_CODE) {
-            gameParameters = (GameParameters) data.getSerializableExtra("NEXT_PARAMETERS");
+            if (data != null) {
+                gameParameters = (GameParameters) data.getSerializableExtra("NEXT_PARAMETERS");
+            }
 
             SharedPreferences sharedPreferences = getSharedPreferences("MY_PREFERENCES", MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -75,6 +83,13 @@ public class MainActivity extends AppCompatActivity {
             editor.apply();
 
             printOnToast(gameParameters);
+
+        } else if (requestCode == PRE_GAME_ACTIVITY_CODE){
+            boolean gameOn = data.getBooleanExtra("GAME_ON", false);
+
+            if (gameOn) { //TODO: start game activity
+                Toast.makeText(this, "Starting game!", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
@@ -82,8 +97,8 @@ public class MainActivity extends AppCompatActivity {
         String str = gameParameters.toString();
         String[] arr = str.split(";");
         StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < arr.length; i++) {
-            stringBuilder.append(arr[i]);
+        for (String anArr : arr) {
+            stringBuilder.append(anArr);
             stringBuilder.append("\n");
         }
         Toast.makeText(this, stringBuilder.toString(), Toast.LENGTH_LONG).show();
