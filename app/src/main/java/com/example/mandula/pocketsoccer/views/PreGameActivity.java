@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.mandula.pocketsoccer.R;
@@ -16,16 +17,20 @@ import com.example.mandula.pocketsoccer.adapters.RightPreGameAdapter;
 import com.example.mandula.pocketsoccer.common.GameParameters;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class PreGameActivity extends AppCompatActivity {
 
-    //TODO test, insert countries from resources, add images
+    //TODO add images
 
     private LeftPreGameAdapter leftPreGameAdapter;
     private RightPreGameAdapter rightPreGameAdapter;
 
     private GameParameters gameParameters;
     private ArrayList<String> countries = new ArrayList<>();
+
+    private EditText homeUserEditText;
+    private EditText awayUserEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,19 +45,20 @@ public class PreGameActivity extends AppCompatActivity {
         Intent intent = getIntent();
         gameParameters = (GameParameters) intent.getSerializableExtra("GAME_PARAMETERS");
 
+        homeUserEditText = findViewById(R.id.left_edit_text_id);
+        awayUserEditText = findViewById(R.id.right_edit_text_id);
+
+        homeUserEditText.setText(gameParameters.getFirstPlayerName());
+        awayUserEditText.setText(gameParameters.getSecondPlayerName());
+
         initCountriesLists();
 
         fillList();
     }
 
     private void fillList() {
-        countries.add("Serbia");
-        countries.add("England");
-        countries.add("France");
-        countries.add("Italy");
-        countries.add("Germany");
-        countries.add("Poland");
-        countries.add("Russia");
+        String[] countiesArray = getResources().getStringArray(R.array.countries);
+        countries.addAll(Arrays.asList(countiesArray));
 
         leftPreGameAdapter.notifyDataSetChanged();
         rightPreGameAdapter.notifyDataSetChanged();
@@ -78,21 +84,44 @@ public class PreGameActivity extends AppCompatActivity {
         int right = rightPreGameAdapter.getSelected();
 
         if (left == right) {
-            Toast.makeText(this, "Same country for both players", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Error! Same country for both players", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        gameParameters.setFirstPlayerName(countries.get(left));
-        gameParameters.setSecondPlayerName(countries.get(right));
+        gameParameters.setFirstPlayerFlag(left);
+        gameParameters.setSecondPlayerFlag(right);
+
+        String homeUser = homeUserEditText.getText().toString();
+        String awayUser = awayUserEditText.getText().toString();
+
+        if (homeUser.equals("")) {
+            homeUser = "Home";
+        }
+
+        if (awayUser.equals("")) {
+            awayUser = "Away";
+        }
+
+        if (homeUser.equals(awayUser)) {
+            Toast.makeText(this, "Error! Both players has same username", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        gameParameters.setFirstPlayerName(homeUser);
+        gameParameters.setSecondPlayerName(awayUser);
 
         Intent intent = getIntent();
+        intent.putExtra("GAME_PARAMETERS", gameParameters);
         intent.putExtra("GAME_ON", true);
         setResult(RESULT_OK, intent);
+        finish();
     }
 
     public void onCancelGameClick(View view) {
         Intent intent = getIntent();
+        intent.putExtra("GAME_PARAMETERS", gameParameters);
         intent.putExtra("GAME_ON", false);
         setResult(RESULT_OK, intent);
+        finish();
     }
 }

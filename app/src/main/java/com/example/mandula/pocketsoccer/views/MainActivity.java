@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void onNewGameClick(View view) {
         Intent intent = new Intent(this, PreGameActivity.class);
-        intent.putExtra("CURRENT_PARAMETERS", gameParameters);
+        intent.putExtra("GAME_PARAMETERS", gameParameters);
         startActivityForResult(intent, PRE_GAME_ACTIVITY_CODE);
     }
 
@@ -88,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
             boolean gameOn = data.getBooleanExtra("GAME_ON", false);
 
             if (gameOn) { //TODO: start game activity
+                gameParameters = (GameParameters) data.getSerializableExtra("GAME_PARAMETERS");
                 Toast.makeText(this, "Starting game!", Toast.LENGTH_SHORT).show();
             }
         }

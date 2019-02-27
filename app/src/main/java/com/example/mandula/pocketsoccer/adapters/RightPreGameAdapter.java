@@ -70,6 +70,8 @@ public class RightPreGameAdapter extends RecyclerView.Adapter<RightPreGameAdapte
                     }
                 }
             });
+
+            textView = itemView.findViewById(R.id.right_text_view_country_id);
         }
 
         public TextView getTextView() {
