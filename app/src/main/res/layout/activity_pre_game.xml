@@ -18,7 +18,7 @@
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical">
 
@@ -30,7 +30,7 @@
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/left_list_view_id"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
             </android.support.v7.widget.RecyclerView>
@@ -38,7 +38,7 @@
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical">
 
@@ -50,7 +50,7 @@
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/right_list_view_id"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
             </android.support.v7.widget.RecyclerView>
