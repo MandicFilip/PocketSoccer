@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@id/face_to_face_statistics_menu_layout_id"
+        app:layout_constraintBottom_toTopOf="@id/face_to_face_victory_count_layout_id"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -45,19 +45,54 @@
     </LinearLayout>
 
     <android.support.constraint.ConstraintLayout
+        android:id="@+id/face_to_face_victory_count_layout_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        app:layout_constraintBottom_toTopOf="face_to_face_statistics_menu_layout_id"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/face_to_face_statistics_layout_id">
+
+        <TextView
+            android:id="@+id/face_to_face_users_name_text_view_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/default_text"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/face_to_face_users_result_text_view_id"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+
+        <TextView
+            android:id="@+id/face_to_face_users_result_text_view_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/default_face_to_face_result"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/face_to_face_users_name_text_view_id"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
         android:id="@+id/face_to_face_statistics_menu_layout_id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/face_to_face_statistics_layout_id">
+        app:layout_constraintTop_toBottomOf="@id/face_to_face_victory_count_layout_id">
 
         <Button
             android:id="@+id/face_to_face_back_button_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/face_to_face_back_button_id"
+            android:onClick="onFaceToFaceBackClicked"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@id/face_to_face_reset_button_id"
@@ -68,6 +103,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/face_to_face_reset_button_id"
+            android:onClick="onFaceToFaceResetClick"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/face_to_face_back_button_id"
             app:layout_constraintRight_toRightOf="parent"
