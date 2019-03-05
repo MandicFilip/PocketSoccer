@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.mandula.pocketsoccer.R;
-import com.example.mandula.pocketsoccer.database.entities.Game;
+import com.example.mandula.pocketsoccer.database.entity.Game;
 
 import java.util.ArrayList;
 
@@ -33,7 +33,7 @@ public class FaceToFaceStatisticsAdapter extends RecyclerView.Adapter<FaceToFace
     @Override
     public MyHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
-        View view = layoutInflater.inflate(R.layout.left_pre_game_holder, viewGroup, false);
+        View view = layoutInflater.inflate(R.layout.face_to_face_stats_holder, viewGroup, false);
         return new FaceToFaceStatisticsAdapter.MyHolder(view);
     }
 

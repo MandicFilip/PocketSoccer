@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.example.mandula.pocketsoccer.R;
 import com.example.mandula.pocketsoccer.adapters.FaceToFaceStatisticsAdapter;
-import com.example.mandula.pocketsoccer.database.entities.Game;
+import com.example.mandula.pocketsoccer.database.entity.Game;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -18,7 +18,6 @@ public class FaceToFaceStatisticsActivity extends AppCompatActivity {
 
     private TextView victoryNameResultTextView;
     private TextView victoryCountResultTextView;
-    private RecyclerView recyclerView;
 
     private String homeUser;
     private String awayUser;
@@ -49,7 +48,6 @@ public class FaceToFaceStatisticsActivity extends AppCompatActivity {
 
         victoryNameResultTextView = findViewById(R.id.face_to_face_users_name_text_view_id);
         victoryCountResultTextView = findViewById(R.id.face_to_face_users_result_text_view_id);
-        recyclerView = findViewById(R.id.face_to_face_statistics_list_id);
 
         Intent intent = getIntent();
         homeUser = intent.getStringExtra("HOME_USER");
@@ -74,8 +72,14 @@ public class FaceToFaceStatisticsActivity extends AppCompatActivity {
     }
 
     private void fillList() {
+        RecyclerView recyclerView = findViewById(R.id.face_to_face_statistics_list_id);
+
+
         adapter = new FaceToFaceStatisticsAdapter(this, games);
         recyclerView.setAdapter(adapter);
+
+        fillTestData();
+        adapter.notifyDataSetChanged();
     }
 
     private void calcVictoryCount() {
@@ -93,8 +97,8 @@ public class FaceToFaceStatisticsActivity extends AppCompatActivity {
         }
 
         //print in bottom
-        victoryNameResultTextView.setText(homeUser + " vs " + awayUser + " wins:");
-        victoryCountResultTextView.setText(Integer.toString(homeWins) + " : " + Integer.toString(awayWins));
+        victoryNameResultTextView.setText(String.format("%s vs %s wins:", homeUser, awayUser));
+        victoryCountResultTextView.setText(String.format("%s : %s", Integer.toString(homeWins), Integer.toString(awayWins)));
     }
 
     private int checkIfHomePlayerWon(Game game) {

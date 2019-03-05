@@ -1,9 +1,14 @@
-package com.example.mandula.pocketsoccer.database.entities;
+package com.example.mandula.pocketsoccer.database.entity;
+
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
 
 import java.sql.Date;
-import java.sql.Time;
 
+@Entity(tableName = "game")
 public class Game {
+
+    @PrimaryKey(autoGenerate = true)
     private int gameID;
 
     private Date date;

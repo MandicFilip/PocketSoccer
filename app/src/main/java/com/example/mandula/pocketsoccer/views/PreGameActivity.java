@@ -21,7 +21,7 @@ import java.util.Arrays;
 
 public class PreGameActivity extends AppCompatActivity {
 
-    //TODO add images
+    //TODO: add images
 
     private LeftPreGameAdapter leftPreGameAdapter;
     private RightPreGameAdapter rightPreGameAdapter;
