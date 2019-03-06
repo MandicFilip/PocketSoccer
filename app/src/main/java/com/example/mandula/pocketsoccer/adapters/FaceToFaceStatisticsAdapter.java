@@ -11,6 +11,8 @@ import android.widget.TextView;
 import com.example.mandula.pocketsoccer.R;
 import com.example.mandula.pocketsoccer.database.entity.Game;
 
+import java.sql.Date;
+import java.sql.Time;
 import java.util.ArrayList;
 
 public class FaceToFaceStatisticsAdapter extends RecyclerView.Adapter<FaceToFaceStatisticsAdapter.MyHolder> {
@@ -44,7 +46,7 @@ public class FaceToFaceStatisticsAdapter extends RecyclerView.Adapter<FaceToFace
 
     @Override
     public int getItemCount() {
-        return games.size();
+        return (games != null) ? games.size() : 0;
     }
 
     public class MyHolder extends RecyclerView.ViewHolder {
@@ -62,9 +64,15 @@ public class FaceToFaceStatisticsAdapter extends RecyclerView.Adapter<FaceToFace
         }
 
         public void setData(Game game) {
-            dateTimeTextView.setText(game.getDate().toString());
+            dateTimeTextView.setText(formatDateTime(game.getDateTime()));
             playersTextView.setText(formatPlayersString(game.getHomeUser(), game.getAwayUser()));
             resultTextView.setText(formatResultString(game.getHomeGoals(), game.getAwayGoals()));
+        }
+
+        private String formatDateTime(long dateTime) {
+            Date date = new Date(dateTime);
+            Time time = new Time(dateTime);
+            return date.toString() + " " + time.toString();
         }
 
         private String formatPlayersString(String home, String away) {

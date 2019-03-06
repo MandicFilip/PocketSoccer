@@ -3,7 +3,6 @@ package com.example.mandula.pocketsoccer.database.entity;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 
-import java.sql.Date;
 
 @Entity(tableName = "game")
 public class Game {
@@ -11,7 +10,7 @@ public class Game {
     @PrimaryKey(autoGenerate = true)
     private int gameID;
 
-    private Date date;
+    private long dateTime;
 
     private String homeUser;
     private String awayUser;
@@ -19,9 +18,9 @@ public class Game {
     private int homeGoals;
     private int awayGoals;
 
-    public Game(int gameID, Date date, String homeUser, String awayUser, int homeGoals, int awayGoals) {
+    public Game(int gameID, long dateTime, String homeUser, String awayUser, int homeGoals, int awayGoals) {
         this.gameID = gameID;
-        this.date = date;
+        this.dateTime = dateTime;
         this.homeUser = homeUser;
         this.awayUser = awayUser;
         this.homeGoals = homeGoals;
@@ -39,12 +38,12 @@ public class Game {
         this.gameID = gameID;
     }
 
-    public Date getDate() {
-        return date;
+    public long getDateTime() {
+        return dateTime;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setDateTime(long dateTime) {
+        this.dateTime = dateTime;
     }
 
     public String getHomeUser() {

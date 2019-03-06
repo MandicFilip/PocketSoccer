@@ -1,6 +1,5 @@
 package com.example.mandula.pocketsoccer.adapters;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -12,16 +11,19 @@ import android.widget.TextView;
 import com.example.mandula.pocketsoccer.R;
 import com.example.mandula.pocketsoccer.database.entity.Game;
 import com.example.mandula.pocketsoccer.views.FaceToFaceStatisticsActivity;
+import com.example.mandula.pocketsoccer.views.GlobalStatisticsActivity;
 
+import java.sql.Date;
+import java.sql.Time;
 import java.util.ArrayList;
 
 public class GlobalStatisticsAdapter extends RecyclerView.Adapter<GlobalStatisticsAdapter.MyHolder> {
 
     private ArrayList<Game> games;
-    private Context context;
+    private GlobalStatisticsActivity activity;
 
-    public GlobalStatisticsAdapter(Context context, ArrayList<Game> games) {
-        this.context = context;
+    public GlobalStatisticsAdapter(GlobalStatisticsActivity context, ArrayList<Game> games) {
+        this.activity = context;
         this.games = games;
         notifyDataSetChanged();
     }
@@ -34,7 +36,7 @@ public class GlobalStatisticsAdapter extends RecyclerView.Adapter<GlobalStatisti
     @NonNull
     @Override
     public MyHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        LayoutInflater layoutInflater = LayoutInflater.from(context);
+        LayoutInflater layoutInflater = LayoutInflater.from(activity);
         View view = layoutInflater.inflate(R.layout.global_stats_holder, viewGroup, false);
         return new GlobalStatisticsAdapter.MyHolder(view);
     }
@@ -46,7 +48,7 @@ public class GlobalStatisticsAdapter extends RecyclerView.Adapter<GlobalStatisti
 
     @Override
     public int getItemCount() {
-        return games.size();
+        return (games != null) ? games.size() : 0;
     }
 
     public class MyHolder extends RecyclerView.ViewHolder {
@@ -68,12 +70,13 @@ public class GlobalStatisticsAdapter extends RecyclerView.Adapter<GlobalStatisti
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(context, FaceToFaceStatisticsActivity.class);
+                    Intent intent = new Intent(activity, FaceToFaceStatisticsActivity.class);
 
                     intent.putExtra("HOME_USER", homeUser);
                     intent.putExtra("AWAY_USER", awayUser);
 
-                    context.startActivity(intent);
+                    activity.startActivityForResult(intent,
+                            GlobalStatisticsActivity.FACE_TO_FACE_STATS_CALL_CODE);
                 }
             });
         }
@@ -83,9 +86,15 @@ public class GlobalStatisticsAdapter extends RecyclerView.Adapter<GlobalStatisti
             homeUser = game.getHomeUser();
             awayUser = game.getAwayUser();
 
-            dateTimeTextView.setText(game.getDate().toString());
+            dateTimeTextView.setText(formatDateTime(game.getDateTime()));
             playersTextView.setText(formatPlayersString(game.getHomeUser(), game.getAwayUser()));
             resultTextView.setText(formatResultString(game.getHomeGoals(), game.getAwayGoals()));
+        }
+
+        private String formatDateTime(long dateTime) {
+            Date date = new Date(dateTime);
+            Time time = new Time(dateTime);
+            return date.toString() + " " + time.toString();
         }
 
         private String formatPlayersString(String home, String away) {

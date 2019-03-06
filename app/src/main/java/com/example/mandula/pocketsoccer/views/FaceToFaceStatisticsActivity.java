@@ -3,6 +3,7 @@ package com.example.mandula.pocketsoccer.views;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
@@ -11,7 +12,6 @@ import com.example.mandula.pocketsoccer.R;
 import com.example.mandula.pocketsoccer.adapters.FaceToFaceStatisticsAdapter;
 import com.example.mandula.pocketsoccer.database.entity.Game;
 
-import java.sql.Date;
 import java.util.ArrayList;
 
 public class FaceToFaceStatisticsActivity extends AppCompatActivity {
@@ -28,19 +28,6 @@ public class FaceToFaceStatisticsActivity extends AppCompatActivity {
     //test data
     private ArrayList<Game> games = new ArrayList<>();
 
-    private void fillTestData() {
-        games.add(new Game(1, new Date(System.currentTimeMillis()), "Petar", "Filip", 10, 7));
-        games.add(new Game(2, new Date(System.currentTimeMillis()), "Filip", "Emilija", 5, 4));
-        games.add(new Game(3, new Date(System.currentTimeMillis()), "Emilija", "Ana", 3, 10));
-        games.add(new Game(4, new Date(System.currentTimeMillis()), "Filip", "Emilija", 2, 10));
-        games.add(new Game(5, new Date(System.currentTimeMillis()), "Petar", "Marko", 10, 8));
-        games.add(new Game(6, new Date(System.currentTimeMillis()), "Marko", "Filip", 10, 6));
-        games.add(new Game(7, new Date(System.currentTimeMillis()), "Ana", "Filip", 6, 10));
-        games.add(new Game(8, new Date(System.currentTimeMillis()), "Filip", "Ana", 5, 2));
-        games.add(new Game(9, new Date(System.currentTimeMillis()), "Filip", "Emilija", 4, 10));
-        games.add(new Game(10, new Date(System.currentTimeMillis()), "Ana", "Emilija", 3, 10));
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,8 +40,6 @@ public class FaceToFaceStatisticsActivity extends AppCompatActivity {
         homeUser = intent.getStringExtra("HOME_USER");
         awayUser = intent.getStringExtra("AWAY_USER");
 
-        extractGamesBetweenPlayers();
-
         fillList();
 
         calcVictoryCount();
@@ -64,21 +49,25 @@ public class FaceToFaceStatisticsActivity extends AppCompatActivity {
         for (Game game: games) {
             String tmpHome = game.getHomeUser();
             String tmpAway = game.getAwayUser();
-            if ((tmpHome.equals(homeUser) || (tmpHome.equals(awayUser))) &&
-                    (tmpAway.equals(homeUser) || (tmpAway.equals(awayUser)))) {
+            if ((tmpHome.equals(homeUser) && (tmpAway.equals(awayUser))) ||
+                    (tmpAway.equals(homeUser) && (tmpHome.equals(awayUser)))) {
                 faceToFaceGames.add(game);
             }
         }
     }
 
     private void fillList() {
+
+        //TODO: Extract form DB
+        games = StatisticsTest.getGames();
+        extractGamesBetweenPlayers();
+
+        adapter = new FaceToFaceStatisticsAdapter(this, faceToFaceGames);
+
         RecyclerView recyclerView = findViewById(R.id.face_to_face_statistics_list_id);
-
-
-        adapter = new FaceToFaceStatisticsAdapter(this, games);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 
-        fillTestData();
         adapter.notifyDataSetChanged();
     }
 
@@ -115,7 +104,12 @@ public class FaceToFaceStatisticsActivity extends AppCompatActivity {
     }
 
     public void onFaceToFaceResetClick(View view) {
-        //TODO: Erase from database
+
+        for (Game game: faceToFaceGames) {
+            StatisticsTest.remove(game);
+        }
+
+        victoryCountResultTextView.setText(String.format("%s : %s", Integer.toString(0), Integer.toString(0)));
         adapter.emptyList();
     }
 }
