@@ -15,6 +15,7 @@ public class GameViewModel extends AndroidViewModel {
 
     private Repository gameRepository;
     private LiveData<List<Game>> games;
+
     public GameViewModel(@NonNull Application application) {
         super(application);
         this.gameRepository = new Repository(application);
@@ -25,23 +26,15 @@ public class GameViewModel extends AndroidViewModel {
         gameRepository.insert(Game);
     }
 
-    public void deleteGamesBetweenTwoPlayers(final Game Game) {
-        gameRepository.deleteGamesBetweenTwoPlayers(Game);
+    public void deleteGamesBetweenTwoPlayers(final String homeUser, final String awayUser) {
+        gameRepository.deleteGamesBetweenTwoPlayers(homeUser, awayUser);
     }
 
     public void deleteAllGames() {
         gameRepository.deleteAllGames();
     }
 
-    public LiveData<List<Game>> getAllReminders() {
+    public LiveData<List<Game>> getAllGames() {
         return games;
-    }
-
-    public void readFromBundle(Bundle bundle) {
-
-    }
-
-    public void writeToBundle(Bundle bundle) {
-
     }
 }

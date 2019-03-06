@@ -15,14 +15,14 @@ import com.example.mandula.pocketsoccer.views.GlobalStatisticsActivity;
 
 import java.sql.Date;
 import java.sql.Time;
-import java.util.ArrayList;
+import java.util.List;
 
 public class GlobalStatisticsAdapter extends RecyclerView.Adapter<GlobalStatisticsAdapter.MyHolder> {
 
-    private ArrayList<Game> games;
+    private List<Game> games;
     private GlobalStatisticsActivity activity;
 
-    public GlobalStatisticsAdapter(GlobalStatisticsActivity context, ArrayList<Game> games) {
+    public GlobalStatisticsAdapter(GlobalStatisticsActivity context, List<Game> games) {
         this.activity = context;
         this.games = games;
         notifyDataSetChanged();
@@ -30,6 +30,11 @@ public class GlobalStatisticsAdapter extends RecyclerView.Adapter<GlobalStatisti
 
     public void emptyList() {
         games.clear();
+        notifyDataSetChanged();
+    }
+
+    public void setGames(List<Game> games) {
+        this.games = games;
         notifyDataSetChanged();
     }
 

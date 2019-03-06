@@ -1,5 +1,8 @@
 package com.example.mandula.pocketsoccer.views;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProvider;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -10,9 +13,11 @@ import android.view.View;
 
 import com.example.mandula.pocketsoccer.R;
 import com.example.mandula.pocketsoccer.adapters.GlobalStatisticsAdapter;
+import com.example.mandula.pocketsoccer.database.datamodel.GameViewModel;
 import com.example.mandula.pocketsoccer.database.entity.Game;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class GlobalStatisticsActivity extends AppCompatActivity {
 
@@ -21,15 +26,22 @@ public class GlobalStatisticsActivity extends AppCompatActivity {
     public static final int FACE_TO_FACE_STATS_CALL_CODE = 1;
 
     private ArrayList<Game> games = new ArrayList<>();
+    private GameViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_global_statistics);
 
-        //TODO Extract data from database
+        ViewModelProvider provider = ViewModelProviders.of(this);
 
-        games = StatisticsTest.getGames();
+        viewModel = provider.get(GameViewModel.class);
+        viewModel.getAllGames().observe(this, new Observer<List<Game>>() {
+            @Override
+            public void onChanged(@Nullable List<Game> games) {
+                adapter.setGames(games);
+            }
+        });
 
         adapter = new GlobalStatisticsAdapter(this, games);
 
@@ -46,8 +58,7 @@ public class GlobalStatisticsActivity extends AppCompatActivity {
     }
 
     public void onGlobalStatsResetButtonClick(View view) {
-        games.clear();
-        adapter.emptyList();
+        viewModel.deleteAllGames();
     }
 
     @Override

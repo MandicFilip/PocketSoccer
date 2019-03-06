@@ -1,6 +1,10 @@
 package com.example.mandula.pocketsoccer.views;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProvider;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,9 +14,11 @@ import android.widget.TextView;
 
 import com.example.mandula.pocketsoccer.R;
 import com.example.mandula.pocketsoccer.adapters.FaceToFaceStatisticsAdapter;
+import com.example.mandula.pocketsoccer.database.datamodel.GameViewModel;
 import com.example.mandula.pocketsoccer.database.entity.Game;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class FaceToFaceStatisticsActivity extends AppCompatActivity {
 
@@ -25,8 +31,7 @@ public class FaceToFaceStatisticsActivity extends AppCompatActivity {
     private ArrayList<Game> faceToFaceGames = new ArrayList<>();
     private FaceToFaceStatisticsAdapter adapter;
 
-    //test data
-    private ArrayList<Game> games = new ArrayList<>();
+    private GameViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +50,8 @@ public class FaceToFaceStatisticsActivity extends AppCompatActivity {
         calcVictoryCount();
     }
 
-    private void extractGamesBetweenPlayers() {
+    private void extractGamesBetweenPlayers(List<Game> games) {
+        faceToFaceGames.clear();
         for (Game game: games) {
             String tmpHome = game.getHomeUser();
             String tmpAway = game.getAwayUser();
@@ -59,8 +65,18 @@ public class FaceToFaceStatisticsActivity extends AppCompatActivity {
     private void fillList() {
 
         //TODO: Extract form DB
-        games = StatisticsTest.getGames();
-        extractGamesBetweenPlayers();
+        ViewModelProvider provider = ViewModelProviders.of(this);
+
+        viewModel = provider.get(GameViewModel.class);
+        viewModel.getAllGames().observe(this, new Observer<List<Game>>() {
+            @Override
+            public void onChanged(@Nullable List<Game> games) {
+                if (games == null) return;
+
+                extractGamesBetweenPlayers(games);
+                adapter.setGames(faceToFaceGames);
+            }
+        });
 
         adapter = new FaceToFaceStatisticsAdapter(this, faceToFaceGames);
 
@@ -104,12 +120,7 @@ public class FaceToFaceStatisticsActivity extends AppCompatActivity {
     }
 
     public void onFaceToFaceResetClick(View view) {
-
-        for (Game game: faceToFaceGames) {
-            StatisticsTest.remove(game);
-        }
-
+        viewModel.deleteGamesBetweenTwoPlayers(homeUser, awayUser);
         victoryCountResultTextView.setText(String.format("%s : %s", Integer.toString(0), Integer.toString(0)));
-        adapter.emptyList();
     }
 }

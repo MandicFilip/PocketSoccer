@@ -28,11 +28,11 @@ public class Repository {
         }).start();
     }
 
-    public void deleteGamesBetweenTwoPlayers(final Game game) {
+    public void deleteGamesBetweenTwoPlayers(final String homeUser, final String awayUser) {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                gameDAO.deleteTwoPlayersGames(game.getHomeUser(), game.getAwayUser());
+                gameDAO.deleteTwoPlayersGames(homeUser, awayUser);
             }
         }).start();
     }

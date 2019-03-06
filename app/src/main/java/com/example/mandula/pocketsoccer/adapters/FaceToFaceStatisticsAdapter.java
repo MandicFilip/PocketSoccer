@@ -13,14 +13,14 @@ import com.example.mandula.pocketsoccer.database.entity.Game;
 
 import java.sql.Date;
 import java.sql.Time;
-import java.util.ArrayList;
+import java.util.List;
 
 public class FaceToFaceStatisticsAdapter extends RecyclerView.Adapter<FaceToFaceStatisticsAdapter.MyHolder> {
 
     private Context context;
-    private ArrayList<Game> games;
+    private List<Game> games;
 
-    public FaceToFaceStatisticsAdapter(Context context, ArrayList<Game> games) {
+    public FaceToFaceStatisticsAdapter(Context context, List<Game> games) {
         this.context = context;
         this.games = games;
         notifyDataSetChanged();
@@ -28,6 +28,11 @@ public class FaceToFaceStatisticsAdapter extends RecyclerView.Adapter<FaceToFace
 
     public void emptyList() {
         games.clear();
+        notifyDataSetChanged();
+    }
+
+    public void setGames(List<Game> games) {
+        this.games = games;
         notifyDataSetChanged();
     }
 
