@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.example.mandula.pocketsoccer.R;
 import com.example.mandula.pocketsoccer.adapters.GlobalStatisticsAdapter;
@@ -23,7 +25,7 @@ public class GlobalStatisticsActivity extends AppCompatActivity {
 
     private GlobalStatisticsAdapter adapter;
 
-    public static final int FACE_TO_FACE_STATS_CALL_CODE = 1;
+    public static final int FACE_TO_FACE_STATS_CALL_CODE = 3;
 
     private ArrayList<Game> games = new ArrayList<>();
     private GameViewModel viewModel;
@@ -31,6 +33,14 @@ public class GlobalStatisticsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        getSupportActionBar().hide();
+
         setContentView(R.layout.activity_global_statistics);
 
         ViewModelProvider provider = ViewModelProviders.of(this);

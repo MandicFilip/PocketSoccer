@@ -6,6 +6,8 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.example.mandula.pocketsoccer.R;
@@ -22,6 +24,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         setContentView(R.layout.activity_main);
 
         SharedPreferences sharedPreferences = getSharedPreferences("MY_PREFERENCES", MODE_PRIVATE);
@@ -33,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             gameParameters = GameParameters.unpackFromString(readValue);
         }
-        printOnToast(gameParameters);
+        //printOnToast(gameParameters);
     }
 
     @Override
@@ -82,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
             editor.putString("GAME_PARAMETERS", gameParameters.toString());
             editor.apply();
 
-            printOnToast(gameParameters);
+            //printOnToast(gameParameters);
 
         } else if (requestCode == PRE_GAME_ACTIVITY_CODE){
             boolean gameOn = data.getBooleanExtra("GAME_ON", false);

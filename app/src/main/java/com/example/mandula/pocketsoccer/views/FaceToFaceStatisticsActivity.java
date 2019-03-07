@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.example.mandula.pocketsoccer.R;
@@ -36,6 +38,14 @@ public class FaceToFaceStatisticsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        getSupportActionBar().hide();
+
         setContentView(R.layout.face_to_face_statistics_activity);
 
         victoryNameResultTextView = findViewById(R.id.face_to_face_users_name_text_view_id);
@@ -46,8 +56,6 @@ public class FaceToFaceStatisticsActivity extends AppCompatActivity {
         awayUser = intent.getStringExtra("AWAY_USER");
 
         fillList();
-
-        calcVictoryCount();
     }
 
     private void extractGamesBetweenPlayers(List<Game> games) {
@@ -75,6 +83,7 @@ public class FaceToFaceStatisticsActivity extends AppCompatActivity {
 
                 extractGamesBetweenPlayers(games);
                 adapter.setGames(faceToFaceGames);
+                calcVictoryCount();
             }
         });
 
