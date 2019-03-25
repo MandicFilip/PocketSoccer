@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 public class RightPreGameAdapter extends RecyclerView.Adapter<RightPreGameAdapter.RightHolder> {
 
-    private static final int AWAY_DEFAULT_INDEX = 1;
+    private static final int AWAY_DEFAULT_INDEX = 2;
 
     private Context context;
 

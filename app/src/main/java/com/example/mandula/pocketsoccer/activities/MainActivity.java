@@ -1,6 +1,5 @@
-package com.example.mandula.pocketsoccer.views;
+package com.example.mandula.pocketsoccer.activities;
 
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
@@ -18,8 +17,6 @@ import com.example.mandula.pocketsoccer.common.GameOutcome;
 import com.example.mandula.pocketsoccer.common.GameParameters;
 import com.example.mandula.pocketsoccer.database.datamodel.GameViewModel;
 import com.example.mandula.pocketsoccer.database.entity.Game;
-
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 

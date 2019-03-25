@@ -1,4 +1,4 @@
-package com.example.mandula.pocketsoccer.views;
+package com.example.mandula.pocketsoccer.activities;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProvider;
@@ -71,8 +71,6 @@ public class FaceToFaceStatisticsActivity extends AppCompatActivity {
     }
 
     private void fillList() {
-
-        //TODO: Extract form DB
         ViewModelProvider provider = ViewModelProviders.of(this);
 
         viewModel = provider.get(GameViewModel.class);

@@ -9,15 +9,11 @@ public class GameOutcome implements Serializable {
     private String homePlayerName;
     private String awayPlayerName;
 
-    private Outcome outcome;
-
     public GameOutcome(int homePlayerGoals, int awayPlayerGoals, String homePlayerName, String awayPlayerName) {
         this.homePlayerGoals = homePlayerGoals;
         this.awayPlayerGoals = awayPlayerGoals;
         this.homePlayerName = homePlayerName;
         this.awayPlayerName = awayPlayerName;
-
-        this.outcome = Outcome.TIE;
     }
 
     public GameOutcome(String homePlayerName, String awayPlayerName) {
@@ -25,24 +21,14 @@ public class GameOutcome implements Serializable {
         this.awayPlayerGoals = 0;
         this.homePlayerName = homePlayerName;
         this.awayPlayerName = awayPlayerName;
-
-        this.outcome = Outcome.TIE;
     }
 
-    public void addFirstPlayerGoal() {
+    public void addHomePlayerGoal() {
         homePlayerGoals++;
-
-        if (homePlayerGoals > awayPlayerGoals) outcome = Outcome.HOME_WIN;
-        else if (homePlayerGoals < awayPlayerGoals) outcome = Outcome.AWAY_WIN;
-        else outcome = Outcome.TIE;
     }
 
-    public void addSecondPlayerGoal() {
+    public void addAwayPlayerGoal() {
         awayPlayerGoals++;
-
-        if (homePlayerGoals > awayPlayerGoals) outcome = Outcome.HOME_WIN;
-        else if (homePlayerGoals < awayPlayerGoals) outcome = Outcome.AWAY_WIN;
-        else outcome = Outcome.TIE;
     }
 
     public int getHomePlayerGoals() {
@@ -59,9 +45,5 @@ public class GameOutcome implements Serializable {
 
     public String getAwayPlayerName() {
         return awayPlayerName;
-    }
-
-    public Outcome getOutcome() {
-        return outcome;
     }
 }

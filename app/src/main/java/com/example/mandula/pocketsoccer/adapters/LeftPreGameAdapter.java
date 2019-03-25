@@ -16,12 +16,11 @@ import java.util.ArrayList;
 
 public class LeftPreGameAdapter extends RecyclerView.Adapter<LeftPreGameAdapter.LeftHolder> {
 
-    private static final int HOME_DEFAULT_INDEX = 0;
+    private static final int HOME_DEFAULT_INDEX = 1;
 
     private Context context;
 
     private ArrayList<String> countryNames;
-    private int count = 0;
 
     private int selected = HOME_DEFAULT_INDEX;
 

@@ -10,8 +10,8 @@ import android.widget.TextView;
 
 import com.example.mandula.pocketsoccer.R;
 import com.example.mandula.pocketsoccer.database.entity.Game;
-import com.example.mandula.pocketsoccer.views.FaceToFaceStatisticsActivity;
-import com.example.mandula.pocketsoccer.views.GlobalStatisticsActivity;
+import com.example.mandula.pocketsoccer.activities.FaceToFaceStatisticsActivity;
+import com.example.mandula.pocketsoccer.activities.GlobalStatisticsActivity;
 
 import java.sql.Date;
 import java.sql.Time;

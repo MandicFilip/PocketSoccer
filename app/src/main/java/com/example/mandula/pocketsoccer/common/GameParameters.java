@@ -6,8 +6,8 @@ public class GameParameters implements Serializable, Cloneable {
     private String firstPlayerName;
     private String secondPlayerName;
 
-    private int firstPlayerFlag;  //resource id
-    private int secondPlayerFlag; //resource id
+    private String firstPlayerCountry;  //resource id
+    private String secondPlayerCountry; //resource id
 
     private Background background;
     private GameEndCondition gameEndCondition;
@@ -17,12 +17,12 @@ public class GameParameters implements Serializable, Cloneable {
     private int minutesToPlay;
     private int goalsLimit;
 
-    public void setPlayersInfo(String firstName, String secondName, int firstFlag, int secondFlag) {
+    public void setPlayersInfo(String firstName, String secondName, String firstFlag, String secondFlag) {
         this.firstPlayerName = firstName;
         this.secondPlayerName = secondName;
 
-        this.firstPlayerFlag = firstFlag;
-        this.secondPlayerFlag = secondFlag;
+        this.firstPlayerCountry = firstFlag;
+        this.secondPlayerCountry = secondFlag;
     }
 
     public void setTimeGameInfo(Background background, Speed ballSpeed, Speed disksSpeed, int minutes) {
@@ -49,10 +49,10 @@ public class GameParameters implements Serializable, Cloneable {
 
     public void setDefaultParameters() {
         firstPlayerName = "Home";
-        firstPlayerFlag = 1;
+        firstPlayerCountry = "France";
 
         secondPlayerName = "Away";
-        secondPlayerFlag = 2;
+        secondPlayerCountry = "Germany";
 
         background = Background.GRASS;
 
@@ -72,7 +72,7 @@ public class GameParameters implements Serializable, Cloneable {
         GameParameters gameParameters = new GameParameters();
 
         gameParameters.setPlayersInfo(firstPlayerName, secondPlayerName,
-                firstPlayerFlag, secondPlayerFlag);
+                firstPlayerCountry, secondPlayerCountry);
 
         if (gameEndCondition == GameEndCondition.TIME) {
             gameParameters.setTimeGameInfo(background, ballSpeed, disksSpeed, minutesToPlay);
@@ -93,10 +93,10 @@ public class GameParameters implements Serializable, Cloneable {
         stringBuilder.append(secondPlayerName);
         stringBuilder.append(";");
 
-        stringBuilder.append(firstPlayerFlag);
+        stringBuilder.append(firstPlayerCountry);
         stringBuilder.append(";");
 
-        stringBuilder.append(secondPlayerFlag);
+        stringBuilder.append(secondPlayerCountry);
         stringBuilder.append(";");
 
         stringBuilder.append(backgroundToString(background));
@@ -126,8 +126,8 @@ public class GameParameters implements Serializable, Cloneable {
 
         gameParameters.setFirstPlayerName(arr[0]);
         gameParameters.setSecondPlayerName(arr[1]);
-        gameParameters.setFirstPlayerFlag(Integer.parseInt(arr[2]));
-        gameParameters.setSecondPlayerFlag(Integer.parseInt(arr[3]));
+        gameParameters.setFirstPlayerCountry(arr[2]);
+        gameParameters.setSecondPlayerCountry(arr[3]);
 
         gameParameters.setBackground(stringToBackground(arr[4]));
         gameParameters.setBallSpeed(stringToSpeed(arr[5]));
@@ -183,12 +183,12 @@ public class GameParameters implements Serializable, Cloneable {
         return secondPlayerName;
     }
 
-    public int getFirstPlayerFlag() {
-        return firstPlayerFlag;
+    public String getFirstPlayerCountry() {
+        return firstPlayerCountry;
     }
 
-    public int getSecondPlayerFlag() {
-        return secondPlayerFlag;
+    public String getSecondPlayerCountry() {
+        return secondPlayerCountry;
     }
 
     public Background getBackground() {
@@ -223,12 +223,12 @@ public class GameParameters implements Serializable, Cloneable {
         this.secondPlayerName = secondPlayerName;
     }
 
-    public void setFirstPlayerFlag(int firstPlayerFlag) {
-        this.firstPlayerFlag = firstPlayerFlag;
+    public void setFirstPlayerCountry(String firstPlayerCountry) {
+        this.firstPlayerCountry = firstPlayerCountry;
     }
 
-    public void setSecondPlayerFlag(int secondPlayerFlag) {
-        this.secondPlayerFlag = secondPlayerFlag;
+    public void setSecondPlayerCountry(String secondPlayerCountry) {
+        this.secondPlayerCountry = secondPlayerCountry;
     }
 
     public void setBackground(Background background) {

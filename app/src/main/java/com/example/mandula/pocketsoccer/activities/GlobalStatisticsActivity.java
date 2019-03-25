@@ -1,4 +1,4 @@
-package com.example.mandula.pocketsoccer.views;
+package com.example.mandula.pocketsoccer.activities;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProvider;

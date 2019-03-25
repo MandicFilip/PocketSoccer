@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".views.FaceToFaceStatisticsActivity">
+    tools:context=".activities.FaceToFaceStatisticsActivity">
 
     <LinearLayout
         android:id="@+id/face_to_face_statistics_layout_id"

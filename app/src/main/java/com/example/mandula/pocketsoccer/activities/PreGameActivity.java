@@ -1,4 +1,4 @@
-package com.example.mandula.pocketsoccer.views;
+package com.example.mandula.pocketsoccer.activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -21,7 +21,7 @@ import java.util.Arrays;
 
 public class PreGameActivity extends AppCompatActivity {
 
-    //TODO: add images
+    //TODO: fix images, make it more interactive
 
     private LeftPreGameAdapter leftPreGameAdapter;
     private RightPreGameAdapter rightPreGameAdapter;
@@ -91,9 +91,6 @@ public class PreGameActivity extends AppCompatActivity {
             return;
         }
 
-        gameParameters.setFirstPlayerFlag(left);
-        gameParameters.setSecondPlayerFlag(right);
-
         String homeUser = homeUserEditText.getText().toString();
         String awayUser = awayUserEditText.getText().toString();
 
@@ -112,6 +109,9 @@ public class PreGameActivity extends AppCompatActivity {
 
         gameParameters.setFirstPlayerName(homeUser);
         gameParameters.setSecondPlayerName(awayUser);
+
+        gameParameters.setFirstPlayerCountry(countries.get(left));
+        gameParameters.setSecondPlayerCountry(countries.get(right));
 
         Intent intent = getIntent();
         intent.putExtra("GAME_PARAMETERS", gameParameters);

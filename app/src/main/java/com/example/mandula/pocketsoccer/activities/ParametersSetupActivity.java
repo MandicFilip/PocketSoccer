@@ -1,4 +1,4 @@
-package com.example.mandula.pocketsoccer.views;
+package com.example.mandula.pocketsoccer.activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
