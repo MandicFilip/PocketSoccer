@@ -6,9 +6,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.mandula.pocketsoccer.R;
+import com.example.mandula.pocketsoccer.common.FlagManager;
 
 import java.util.ArrayList;
 
@@ -19,6 +21,7 @@ public class LeftPreGameAdapter extends RecyclerView.Adapter<LeftPreGameAdapter.
     private Context context;
 
     private ArrayList<String> countryNames;
+    private int count = 0;
 
     private int selected = HOME_DEFAULT_INDEX;
 
@@ -43,6 +46,7 @@ public class LeftPreGameAdapter extends RecyclerView.Adapter<LeftPreGameAdapter.
     @Override
     public void onBindViewHolder(@NonNull LeftHolder leftHolder, int i) {
         leftHolder.getTextView().setText(countryNames.get(i));
+        leftHolder.onBind(countryNames.get(i));
     }
 
     @Override
@@ -53,6 +57,7 @@ public class LeftPreGameAdapter extends RecyclerView.Adapter<LeftPreGameAdapter.
     public class LeftHolder extends RecyclerView.ViewHolder {
 
         private TextView textView;
+        private ImageView imageView;
 
         public LeftHolder(@NonNull final View itemView) {
             super(itemView);
@@ -72,6 +77,12 @@ public class LeftPreGameAdapter extends RecyclerView.Adapter<LeftPreGameAdapter.
             });
 
             textView = itemView.findViewById(R.id.left_text_view_country_id);
+
+            imageView = itemView.findViewById(R.id.left_image_view_country_id);
+        }
+
+        public void onBind(String country) {
+            imageView.setImageResource(FlagManager.getCountryFlag(country));
         }
 
         public TextView getTextView() {
