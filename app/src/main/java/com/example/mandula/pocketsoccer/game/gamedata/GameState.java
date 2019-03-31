@@ -1,5 +1,7 @@
 package com.example.mandula.pocketsoccer.game.gamedata;
 
+import android.graphics.Color;
+
 import com.example.mandula.pocketsoccer.common.GameOutcome;
 import com.example.mandula.pocketsoccer.common.GameParameters;
 
@@ -14,14 +16,42 @@ public class GameState {
     private GameOutcome gameOutcome;
     private GameParameters gameParameters;
 
+    private ArrayList<GoalPost> leftGoalPosts;
+    private ArrayList<GoalPost> rightGoalPosts;
+
+    private int timeLeft;
+
     public GameState(GameParameters gameParameters) {
         this.gameParameters = gameParameters;
 
         String homeUser = gameParameters.getFirstPlayerName();
         String awayUser = gameParameters.getSecondPlayerName();
-    }
 
-    private int timeLeft;
+        gameOutcome = new GameOutcome(0, 0, homeUser, awayUser);
+
+        homeDisks = new ArrayList<>();
+        awayDisks = new ArrayList<>();
+
+        homeDisks.add(new Disk(Color.BLUE, 0.2f, 0.25f));
+        homeDisks.add(new Disk(Color.BLUE, 0.4f, 0.5f));
+        homeDisks.add(new Disk(Color.BLUE, 0.2f, 0.75f));
+
+        awayDisks.add(new Disk(Color.RED, 0.8f, 0.25f));
+        awayDisks.add(new Disk(Color.RED, 0.6f, 0.5f));
+        awayDisks.add(new Disk(Color.RED, 0.8f, 0.75f));
+
+        ball = new Ball(0.5f, 0.5f);
+
+        timeLeft = gameParameters.getMinutesToPlay() * 60;
+
+        leftGoalPosts = new ArrayList<>();
+        leftGoalPosts.add(new GoalPost(0.1f, 0f, 0.3f, 4));
+        leftGoalPosts.add(new GoalPost(0.1f, 0f, 0.7f, 4));
+
+        rightGoalPosts = new ArrayList<>();
+        rightGoalPosts.add(new GoalPost(0.1f, 0.9f, 0.3f, 4));
+        rightGoalPosts.add(new GoalPost(0.1f, 0.9f, 0.7f, 4));
+    }
 
     public ArrayList<Disk> getHomeDisks() {
         return homeDisks;
@@ -45,5 +75,13 @@ public class GameState {
 
     public int getTimeLeft() {
         return timeLeft;
+    }
+
+    public ArrayList<GoalPost> getLeftGoalPosts() {
+        return leftGoalPosts;
+    }
+
+    public ArrayList<GoalPost> getRightGoalPosts() {
+        return rightGoalPosts;
     }
 }

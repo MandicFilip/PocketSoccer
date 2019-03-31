@@ -11,51 +11,64 @@ import android.widget.Button;
 import com.example.mandula.pocketsoccer.R;
 import com.example.mandula.pocketsoccer.common.GameOutcome;
 import com.example.mandula.pocketsoccer.common.GameParameters;
+import com.example.mandula.pocketsoccer.game.CollisionDetector;
+import com.example.mandula.pocketsoccer.game.GameThreadWorker;
+import com.example.mandula.pocketsoccer.game.GameView;
+import com.example.mandula.pocketsoccer.game.gamedata.GameState;
 
 public class GameActivity extends AppCompatActivity {
 
-    private Button button;
-    private GameOutcome gameOutcome;
+    private GameState gameState;
+    private GameView gameView;
+    private GameThreadWorker gameThreadWorker;
+    private CollisionDetector collisionDetector;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
         getSupportActionBar().hide();
 
         setContentView(R.layout.activity_game);
 
-        button = findViewById(R.id.temp_game_button_id);
+        Intent intent = getIntent();
+        GameParameters gameParameters =
+                (GameParameters) intent.getSerializableExtra("GAME_PARAMETERS");
 
-        Intent myIntent = getIntent();
-        final GameParameters gameParameters = (GameParameters) myIntent.getSerializableExtra("GAME_PARAMETERS");
+        gameView = findViewById(R.id.game_view_id);
+        gameState = new GameState(gameParameters);
+        gameView.setGameState(gameState);
 
-        int homeGoals = 7;
-        int awayGoals = 10;
+        collisionDetector = new CollisionDetector(gameState);
+        gameThreadWorker = new GameThreadWorker(gameView, collisionDetector);
 
-        int rand = (int) (Math.random() * 10);
-        if (rand < 5) {
-            homeGoals = homeGoals ^ awayGoals;
-            awayGoals = homeGoals ^ awayGoals;
-            homeGoals = homeGoals ^ awayGoals;
-        }
+        gameThreadWorker.setActiveGame(true);
+        Thread thread = new Thread(gameThreadWorker);
+        thread.start();
+    }
 
-        gameOutcome = new GameOutcome(homeGoals, awayGoals, gameParameters.getFirstPlayerName(), gameParameters.getSecondPlayerName());
+    @Override
+    protected void onResume() {
+        super.onResume();
 
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = getIntent();
-                intent.putExtra("GAME_OUTCOME", gameOutcome);
+        //TODO implement
+    }
 
-                setResult(RESULT_OK, intent);
-                finish();
-            }
-        });
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        //TODO implement
+    }
+
+    public void finishGame() {
+        gameThreadWorker.setActiveGame(false);
+        Intent intent = getIntent();
+        intent.putExtra("GAME_OUTCOME", gameState.getGameOutcome());
+        setResult(RESULT_OK, intent);
+        finish();
     }
 }
