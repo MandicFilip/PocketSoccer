@@ -134,32 +134,32 @@
                 android:layout_margin="8dp"/>
 
             <RadioGroup
-                android:id="@+id/ball_speed_radio_group_id"
+                android:id="@+id/game_speed_radio_group_id"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="4dp"
                 android:orientation="horizontal">
 
                 <RadioButton
-                    android:id="@+id/ball_slow_radio_id"
+                    android:id="@+id/game_slow_radio_id"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/slow_radio_text"
-                    android:onClick="onSlowBallClick" />
+                    android:onClick="onSlowClick" />
 
                 <RadioButton
-                    android:id="@+id/ball_medium__radio_id"
+                    android:id="@+id/game_medium__radio_id"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/medium_radio_text"
-                    android:onClick="onMediumSpeedBallClick" />
+                    android:onClick="onMediumSpeedClick" />
 
                 <RadioButton
-                    android:id="@+id/ball_fast__radio_id"
+                    android:id="@+id/game_fast__radio_id"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/fast_radio_text"
-                    android:onClick="onFastBallClick" />
+                    android:onClick="onFastClick" />
 
             </RadioGroup>
 
@@ -172,37 +172,29 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/choose_disks_speed_text"
+                android:text="@string/choose_game_type_text"
                 android:layout_margin="4dp"/>
 
             <RadioGroup
-                android:id="@+id/disks_speed_radio_group_id"
+                android:id="@+id/game_type_radio_group_id"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="4dp"
                 android:orientation="horizontal">
 
                 <RadioButton
-                    android:id="@+id/disk_slow__radio_id"
+                    android:id="@+id/single_player__radio_id"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/slow_radio_text"
-                    android:onClick="onSlowDisksClick" />
+                    android:text="@string/single_player_text_id"
+                    android:onClick="onSinglePlayerClick" />
 
                 <RadioButton
-                    android:id="@+id/disk_medium_radio_id"
+                    android:id="@+id/multi_player_radio_id"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/medium_radio_text"
-                    android:onClick="onMediumSpeedDisksClick" />
-
-                <RadioButton
-                    android:id="@+id/disk_fast_radio_id"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/fast_radio_text"
-                    android:onClick="onFastDisksClick" />
-
+                    android:text="@string/multi_player_text_id"
+                    android:onClick="onMultiPlayerClick" />
             </RadioGroup>
 
         </LinearLayout>

@@ -45,7 +45,7 @@ public class GameView extends android.support.v7.widget.AppCompatImageView {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        //TODO paint background
+        paintBackground();
 
         ArrayList<GoalPost> posts = gameState.getLeftGoalPosts();
 
@@ -73,6 +73,14 @@ public class GameView extends android.support.v7.widget.AppCompatImageView {
 
         gameState.getBall().drawCircle(canvas, paint, width, height);
 
+        printResult();
+    }
+
+    private void paintBackground() {
+        //TODO paint background
+    }
+
+    private void printResult() {
         //TODO print result - text at the top
     }
 }

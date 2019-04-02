@@ -53,6 +53,29 @@ public class GameState {
         rightGoalPosts.add(new GoalPost(0.1f, 0.9f, 0.7f, 4));
     }
 
+    public void moveToInitialPositions() {
+        homeDisks.get(0).setX(0.2f);
+        homeDisks.get(0).setY(0.25f);
+
+        homeDisks.get(1).setX(0.4f);
+        homeDisks.get(1).setY(0.5f);
+
+        homeDisks.get(2).setX(0.2f);
+        homeDisks.get(2).setY(0.75f);
+
+        awayDisks.get(0).setX(0.2f);
+        awayDisks.get(0).setY(0.25f);
+
+        awayDisks.get(1).setX(0.4f);
+        awayDisks.get(1).setY(0.5f);
+
+        awayDisks.get(2).setX(0.2f);
+        awayDisks.get(2).setY(0.75f);
+
+        ball.setX(0.5f);
+        ball.setY(0.5f);
+    }
+
     public ArrayList<Disk> getHomeDisks() {
         return homeDisks;
     }

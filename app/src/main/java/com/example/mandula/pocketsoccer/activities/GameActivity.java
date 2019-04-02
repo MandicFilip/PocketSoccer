@@ -43,7 +43,7 @@ public class GameActivity extends AppCompatActivity {
         gameView.setGameState(gameState);
 
         collisionDetector = new CollisionDetector(gameState);
-        gameThreadWorker = new GameThreadWorker(gameView, collisionDetector);
+        gameThreadWorker = new GameThreadWorker(this, gameView, gameState, collisionDetector);
 
         gameThreadWorker.setActiveGame(true);
         Thread thread = new Thread(gameThreadWorker);

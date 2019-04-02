@@ -11,8 +11,8 @@ public class GameParameters implements Serializable, Cloneable {
 
     private Background background;
     private GameEndCondition gameEndCondition;
-    private Speed ballSpeed;
-    private Speed disksSpeed;
+    private Speed gameSpeed;
+    private GameType gameType;
 
     private int minutesToPlay;
     private int goalsLimit;
@@ -25,10 +25,10 @@ public class GameParameters implements Serializable, Cloneable {
         this.secondPlayerCountry = secondFlag;
     }
 
-    public void setTimeGameInfo(Background background, Speed ballSpeed, Speed disksSpeed, int minutes) {
+    public void setTimeGameInfo(Background background, Speed gameSpeed, GameType gameType, int minutes) {
         this.background = background;
-        this.ballSpeed = ballSpeed;
-        this.disksSpeed =disksSpeed;
+        this.gameSpeed = gameSpeed;
+        this.gameType = gameType;
 
         gameEndCondition = GameEndCondition.TIME;
         minutesToPlay = minutes;
@@ -36,10 +36,10 @@ public class GameParameters implements Serializable, Cloneable {
         goalsLimit = -1;
     }
 
-    public void setGoalsGameInfo(Background background, Speed ballSpeed, Speed disksSpeed, int goals) {
+    public void setGoalsGameInfo(Background background, Speed gameSpeed, GameType gameType, int goals) {
         this.background = background;
-        this.ballSpeed = ballSpeed;
-        this.disksSpeed =disksSpeed;
+        this.gameSpeed = gameSpeed;
+        this.gameType = gameType;
 
         gameEndCondition = GameEndCondition.GOALS;
         minutesToPlay = -1;
@@ -56,8 +56,8 @@ public class GameParameters implements Serializable, Cloneable {
 
         background = Background.GRASS;
 
-        ballSpeed = Speed.MEDIUM;
-        disksSpeed = Speed.MEDIUM;
+        gameSpeed = Speed.MEDIUM;
+        gameType = GameType.SINGLE_PLAYER;
 
         gameEndCondition = GameEndCondition.GOALS;
 
@@ -75,9 +75,9 @@ public class GameParameters implements Serializable, Cloneable {
                 firstPlayerCountry, secondPlayerCountry);
 
         if (gameEndCondition == GameEndCondition.TIME) {
-            gameParameters.setTimeGameInfo(background, ballSpeed, disksSpeed, minutesToPlay);
+            gameParameters.setTimeGameInfo(background, gameSpeed, gameType, minutesToPlay);
         } else {
-            gameParameters.setGoalsGameInfo(background, ballSpeed, disksSpeed, goalsLimit);
+            gameParameters.setGoalsGameInfo(background, gameSpeed, gameType, goalsLimit);
         }
 
         return gameParameters;
@@ -102,10 +102,10 @@ public class GameParameters implements Serializable, Cloneable {
         stringBuilder.append(backgroundToString(background));
         stringBuilder.append(";");
 
-        stringBuilder.append(speedToString(ballSpeed));
+        stringBuilder.append(speedToString(gameSpeed));
         stringBuilder.append(";");
 
-        stringBuilder.append(speedToString(disksSpeed));
+        stringBuilder.append(gameTypeToString(gameType));
         stringBuilder.append(";");
 
         stringBuilder.append(conditionToString(gameEndCondition));
@@ -130,8 +130,8 @@ public class GameParameters implements Serializable, Cloneable {
         gameParameters.setSecondPlayerCountry(arr[3]);
 
         gameParameters.setBackground(stringToBackground(arr[4]));
-        gameParameters.setBallSpeed(stringToSpeed(arr[5]));
-        gameParameters.setDisksSpeed(stringToSpeed(arr[6]));
+        gameParameters.setGameSpeed(stringToSpeed(arr[5]));
+        gameParameters.setGameType(stringToGameType(arr[6]));
         gameParameters.setGameEndCondition(stringToCondition(arr[7]));
 
         gameParameters.setMinutesToPlay(Integer.parseInt(arr[8]));
@@ -154,6 +154,11 @@ public class GameParameters implements Serializable, Cloneable {
         return ret;
     }
 
+    private static String gameTypeToString(GameType gameType) {
+        if (gameType == GameType.SINGLE_PLAYER) return "SINGLE_PLAYER";
+        else return "MULTI_PLAYER";
+    }
+
     private static String conditionToString(GameEndCondition gameEndCondition) {
         return (gameEndCondition == GameEndCondition.GOALS) ? "GOALS" : "TIME";
     }
@@ -174,6 +179,12 @@ public class GameParameters implements Serializable, Cloneable {
         if ("GOALS".equals(s)) return GameEndCondition.GOALS;
         return GameEndCondition.TIME;
     }
+
+    private static GameType stringToGameType(String s) {
+        if ("SINGLE_PLAYER".equals(s)) return GameType.SINGLE_PLAYER;
+        return GameType.MULTI_PLAYER;
+    }
+
 
     public String getFirstPlayerName() {
         return firstPlayerName;
@@ -199,12 +210,12 @@ public class GameParameters implements Serializable, Cloneable {
         return gameEndCondition;
     }
 
-    public Speed getBallSpeed() {
-        return ballSpeed;
+    public Speed getGameSpeed() {
+        return gameSpeed;
     }
 
-    public Speed getDisksSpeed() {
-        return disksSpeed;
+    public GameType getGameType() {
+        return gameType;
     }
 
     public int getMinutesToPlay() {
@@ -239,12 +250,12 @@ public class GameParameters implements Serializable, Cloneable {
         this.gameEndCondition = gameEndCondition;
     }
 
-    public void setBallSpeed(Speed ballSpeed) {
-        this.ballSpeed = ballSpeed;
+    public void setGameSpeed(Speed gameSpeed) {
+        this.gameSpeed = gameSpeed;
     }
 
-    public void setDisksSpeed(Speed disksSpeed) {
-        this.disksSpeed = disksSpeed;
+    public void setGameType(GameType gameType) {
+        this.gameType = gameType;
     }
 
     public void setMinutesToPlay(int minutesToPlay) {

@@ -262,7 +262,7 @@ public class CollisionDetector {
 
     private boolean checkCircleAndRightGoalPostEdgeCollision(CircleFigure circleFigure) {
         float rightGoalPostLeftEnd = 1 - gameState.getRightGoalPosts().get(0).getLength();
-        ArrayList<GoalPost> rightGoalPosts = gameState.getLeftGoalPosts();
+        ArrayList<GoalPost> rightGoalPosts = gameState.getRightGoalPosts();
 
         for (int i = 0; i < rightGoalPosts.size(); i++) {
             float distance = calcTwoDotsDistance(rightGoalPostLeftEnd, rightGoalPosts.get(i).getY(),

@@ -14,6 +14,7 @@ import com.example.mandula.pocketsoccer.R;
 import com.example.mandula.pocketsoccer.common.Background;
 import com.example.mandula.pocketsoccer.common.GameEndCondition;
 import com.example.mandula.pocketsoccer.common.GameParameters;
+import com.example.mandula.pocketsoccer.common.GameType;
 import com.example.mandula.pocketsoccer.common.Speed;
 
 public class ParametersSetupActivity extends AppCompatActivity {
@@ -25,12 +26,12 @@ public class ParametersSetupActivity extends AppCompatActivity {
     private RadioButton timeRadio;
     private RadioButton goalsRadio;
 
-    private RadioButton ballSlowRadio;
-    private RadioButton ballMediumRadio;
-    private RadioButton ballFastRadio;
-    private RadioButton disksSlowRadio;
-    private RadioButton disksMediumRadio;
-    private RadioButton disksFastRadio;
+    private RadioButton gameSlowRadio;
+    private RadioButton gameMediumRadio;
+    private RadioButton gameFastRadio;
+
+    private RadioButton singlePlayerRadio;
+    private RadioButton multiPlayerRadio;
 
     private EditText editText;
 
@@ -40,8 +41,8 @@ public class ParametersSetupActivity extends AppCompatActivity {
 
     private RadioGroup backgroundRadioGroup;
     private RadioGroup conditionRadioGroup;
-    private RadioGroup ballSpeedRadioGroup;
-    private RadioGroup disksSpeedRadioGroup;
+    private RadioGroup gameSpeedRadioGroup;
+    private RadioGroup gameTypeRadioGroup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,19 +82,19 @@ public class ParametersSetupActivity extends AppCompatActivity {
         timeRadio = findViewById(R.id.time_radio_id);
         goalsRadio = findViewById(R.id.goals_radio_id);
 
-        ballSlowRadio = findViewById(R.id.ball_slow_radio_id);
-        ballMediumRadio = findViewById(R.id.ball_medium__radio_id);
-        ballFastRadio = findViewById(R.id.ball_fast__radio_id);
-        disksSlowRadio = findViewById(R.id.disk_slow__radio_id);
-        disksMediumRadio = findViewById(R.id.disk_medium_radio_id);
-        disksFastRadio = findViewById(R.id.disk_fast_radio_id);
+        gameSlowRadio = findViewById(R.id.ball_slow_radio_id);
+        gameMediumRadio = findViewById(R.id.ball_medium__radio_id);
+        gameFastRadio = findViewById(R.id.ball_fast__radio_id);
+
+        singlePlayerRadio = findViewById(R.id.single_player__radio_id);
+        multiPlayerRadio = findViewById(R.id.multi_player_radio_id);
 
         editText = findViewById(R.id.edit_text_parameters);
 
         backgroundRadioGroup = findViewById(R.id.background_radio_group_id);
         conditionRadioGroup = findViewById(R.id.game_condition_radio_group_id);
-        ballSpeedRadioGroup = findViewById(R.id.ball_speed_radio_group_id);
-        disksSpeedRadioGroup = findViewById(R.id.disks_speed_radio_group_id);
+        gameSpeedRadioGroup = findViewById(R.id.ball_speed_radio_group_id);
+        gameTypeRadioGroup = findViewById(R.id.disks_speed_radio_group_id);
     }
 
     private void setupGUI(GameParameters gameParameters) {
@@ -129,32 +130,29 @@ public class ParametersSetupActivity extends AppCompatActivity {
                 break;
         }
 
-        Speed ballSpeed = gameParameters.getBallSpeed();
+        Speed ballSpeed = gameParameters.getGameSpeed();
 
-        ballSpeedRadioGroup.clearCheck();
+        gameSpeedRadioGroup.clearCheck();
         switch (ballSpeed) {
             case SLOW:
-                ballSpeedRadioGroup.check(ballSlowRadio.getId());
+                gameSpeedRadioGroup.check(gameSlowRadio.getId());
                 break;
             case MEDIUM:
-                ballSpeedRadioGroup.check(ballMediumRadio.getId());
+                gameSpeedRadioGroup.check(gameMediumRadio.getId());
                 break;
             case FAST:
-                ballSpeedRadioGroup.check(ballFastRadio.getId());
+                gameSpeedRadioGroup.check(gameFastRadio.getId());
                 break;
         }
 
-        Speed disksSpeed = gameParameters.getDisksSpeed();
-        disksSpeedRadioGroup.clearCheck();
-        switch (disksSpeed) {
-            case SLOW:
-                disksSpeedRadioGroup.check(disksSlowRadio.getId());
+        GameType gameTypes = gameParameters.getGameType();
+        gameTypeRadioGroup.clearCheck();
+        switch (gameTypes) {
+            case SINGLE_PLAYER:
+                gameTypeRadioGroup.check(singlePlayerRadio.getId());
                 break;
-            case MEDIUM:
-                disksSpeedRadioGroup.check(disksMediumRadio.getId());
-                break;
-            case FAST:
-                disksSpeedRadioGroup.check(disksFastRadio.getId());
+            case MULTI_PLAYER:
+                gameTypeRadioGroup.check(multiPlayerRadio.getId());
                 break;
         }
     }
@@ -179,28 +177,24 @@ public class ParametersSetupActivity extends AppCompatActivity {
         changedParameters.setGameEndCondition(GameEndCondition.TIME);
     }
 
-    public void onSlowBallClick(View view) {
-        changedParameters.setBallSpeed(Speed.SLOW);
+    public void onSlowClick(View view) {
+        changedParameters.setGameSpeed(Speed.SLOW);
     }
 
-    public void onMediumSpeedBallClick(View view) {
-        changedParameters.setBallSpeed(Speed.MEDIUM);
+    public void onMediumSpeedClick(View view) {
+        changedParameters.setGameSpeed(Speed.MEDIUM);
     }
 
-    public void onFastBallClick(View view) {
-        changedParameters.setBallSpeed(Speed.FAST);
+    public void onFastClick(View view) {
+        changedParameters.setGameSpeed(Speed.FAST);
     }
 
-    public void onSlowDisksClick(View view) {
-        changedParameters.setDisksSpeed(Speed.SLOW);
+    public void onSinglePlayerClick(View view) {
+        changedParameters.setGameType(GameType.SINGLE_PLAYER);
     }
 
-    public void onMediumSpeedDisksClick(View view) {
-        changedParameters.setDisksSpeed(Speed.MEDIUM);
-    }
-
-    public void onFastDisksClick(View view) {
-        changedParameters.setDisksSpeed(Speed.FAST);
+    public void onMultiPlayerClick(View view) {
+        changedParameters.setGameType(GameType.MULTI_PLAYER);
     }
 
     public void onChangeClick(View view) {
@@ -238,5 +232,4 @@ public class ParametersSetupActivity extends AppCompatActivity {
         setResult(RESULT_OK, intent);
         finish();
     }
-
 }
