@@ -60,11 +60,25 @@ public class CollisionDetector {
         if (checkCircleAndGoalPostDownCollision(ball))
             collisionResolver.resolveBallAndGoalPostDownCollision(ball);
 
-        if (checkCircleAndLeftGoalPostEdgeCollision(ball))
-            collisionResolver.resolveBallAndLeftGoalPostEdgeCollision(ball);
+        if (checkCircleAndLeftUpGoalPostEdgeCollision(ball))
+            collisionResolver.resolveBallAndGoalPostEdgeCollision(ball,
+                    gameState.getLeftGoalPosts().get(1).getLength(),
+                    gameState.getLeftGoalPosts().get(1).getY());
 
-        if (checkCircleAndRightGoalPostEdgeCollision(ball))
-            collisionResolver.resolveBallAndRightGoalPostEdgeCollision(ball);
+        if (checkCircleAndLeftDownGoalPostEdgeCollision(ball))
+            collisionResolver.resolveBallAndGoalPostEdgeCollision(ball,
+                    gameState.getLeftGoalPosts().get(1).getLength(),
+                    gameState.getLeftGoalPosts().get(1).getY());
+
+        if (checkCircleAndRightUpGoalPostEdgeCollision(ball))
+            collisionResolver.resolveBallAndGoalPostEdgeCollision(ball,
+                    1 - gameState.getRightGoalPosts().get(0).getLength(),
+                    gameState.getRightGoalPosts().get(0).getY());
+
+        if (checkCircleAndRightDownGoalPostEdgeCollision(ball))
+            collisionResolver.resolveBallAndGoalPostEdgeCollision(ball,
+                    1 - gameState.getRightGoalPosts().get(1).getLength(),
+                    gameState.getRightGoalPosts().get(1).getY());
     }
 
     private void detectDisksCollisions() {
@@ -138,30 +152,58 @@ public class CollisionDetector {
 
         for (int i = 0; i < homeDisks.size(); i++) {
             if (checkCircleAndGoalPostUpCollision(homeDisks.get(i)))
-                collisionResolver.resolveDiskAndGoalPostUpCollision(homeDisks.get(i));
+                collisionResolver.resolveDiskAndGoalPostUpSizeCollision(homeDisks.get(i));
 
             if (checkCircleAndGoalPostDownCollision(homeDisks.get(i)))
-                collisionResolver.resolveDiskAndGoalPostDownCollision(homeDisks.get(i));
+                collisionResolver.resolveDiskAndGoalPostDownSizeCollision(homeDisks.get(i));
 
-            if (checkCircleAndLeftGoalPostEdgeCollision(homeDisks.get(i)))
-                collisionResolver.resolveDiskAndLeftGoalPostEdgeCollision(homeDisks.get(i));
+            if (checkCircleAndLeftUpGoalPostEdgeCollision(homeDisks.get(i)))
+                collisionResolver.resolveDiskAndGoalPostEdgeCollision(homeDisks.get(i),
+                        gameState.getLeftGoalPosts().get(0).getLength(),
+                        gameState.getLeftGoalPosts().get(0).getY());
 
-            if (checkCircleAndRightGoalPostEdgeCollision(homeDisks.get(i)))
-                collisionResolver.resolveDiskAndRightGoalPostEdgeCollision(homeDisks.get(i));
+            if (checkCircleAndLeftDownGoalPostEdgeCollision(homeDisks.get(i)))
+                collisionResolver.resolveDiskAndGoalPostEdgeCollision(homeDisks.get(i),
+                        gameState.getLeftGoalPosts().get(1).getLength(),
+                        gameState.getLeftGoalPosts().get(1).getY());
+
+            if (checkCircleAndRightUpGoalPostEdgeCollision(homeDisks.get(i)))
+                collisionResolver.resolveDiskAndGoalPostEdgeCollision(homeDisks.get(i),
+                        1 - gameState.getRightGoalPosts().get(0).getLength(),
+                        gameState.getRightGoalPosts().get(0).getY());
+
+            if (checkCircleAndRightDownGoalPostEdgeCollision(homeDisks.get(i)))
+                collisionResolver.resolveDiskAndGoalPostEdgeCollision(homeDisks.get(i),
+                        1 - gameState.getRightGoalPosts().get(1).getLength(),
+                        gameState.getRightGoalPosts().get(1).getY());
         }
 
         for (int i = 0; i < awayDisks.size(); i++) {
             if (checkCircleAndGoalPostUpCollision(awayDisks.get(i)))
-                collisionResolver.resolveDiskAndGoalPostUpCollision(awayDisks.get(i));
+                collisionResolver.resolveDiskAndGoalPostUpSizeCollision(awayDisks.get(i));
 
             if (checkCircleAndGoalPostDownCollision(awayDisks.get(i)))
-                collisionResolver.resolveDiskAndGoalPostDownCollision(awayDisks.get(i));
+                collisionResolver.resolveDiskAndGoalPostDownSizeCollision(awayDisks.get(i));
 
-            if (checkCircleAndLeftGoalPostEdgeCollision(awayDisks.get(i)))
-                collisionResolver.resolveDiskAndLeftGoalPostEdgeCollision(awayDisks.get(i));
+            if (checkCircleAndLeftUpGoalPostEdgeCollision(awayDisks.get(i)))
+                collisionResolver.resolveDiskAndGoalPostEdgeCollision(awayDisks.get(i),
+                        gameState.getLeftGoalPosts().get(0).getLength(),
+                        gameState.getLeftGoalPosts().get(0).getY());
 
-            if (checkCircleAndRightGoalPostEdgeCollision(awayDisks.get(i)))
-                collisionResolver.resolveDiskAndRightGoalPostEdgeCollision(awayDisks.get(i));
+            if (checkCircleAndLeftDownGoalPostEdgeCollision(awayDisks.get(i)))
+                collisionResolver.resolveDiskAndGoalPostEdgeCollision(awayDisks.get(i),
+                        gameState.getLeftGoalPosts().get(1).getLength(),
+                        gameState.getLeftGoalPosts().get(1).getY());
+
+            if (checkCircleAndRightUpGoalPostEdgeCollision(awayDisks.get(i)))
+                collisionResolver.resolveDiskAndGoalPostEdgeCollision(awayDisks.get(i),
+                        1 - gameState.getRightGoalPosts().get(0).getLength(),
+                        gameState.getRightGoalPosts().get(0).getY());
+
+            if (checkCircleAndRightDownGoalPostEdgeCollision(awayDisks.get(i)))
+                collisionResolver.resolveDiskAndGoalPostEdgeCollision(awayDisks.get(i),
+                        1 - gameState.getRightGoalPosts().get(1).getLength(),
+                        gameState.getRightGoalPosts().get(1).getY());
         }
     }
 
@@ -176,7 +218,7 @@ public class CollisionDetector {
     }
 
     private boolean checkCircleAndDownBorderCollision(CircleFigure circleFigure) {
-        return circleFigure.getY() + circleFigure.getRadius() > 1;
+        return circleFigure.getY() + circleFigure.getRadius() > gameState.screenHeight;
     }
 
     private boolean checkCircleAndLeftBorderCollision(CircleFigure circleFigure){
@@ -184,7 +226,7 @@ public class CollisionDetector {
     }
 
     private boolean checkCircleAndRightBorderCollision(CircleFigure circleFigure) {
-        return circleFigure.getX() + circleFigure.getRadius() > 1;
+        return circleFigure.getX() + circleFigure.getRadius() > gameState.screenWidth;
     }
 
     private boolean checkCircleAndGoalPostUpCollision(CircleFigure circleFigure) {
@@ -247,30 +289,42 @@ public class CollisionDetector {
         return false;
     }
 
-    private boolean checkCircleAndLeftGoalPostEdgeCollision(CircleFigure circleFigure) {
+    private boolean checkCircleAndLeftUpGoalPostEdgeCollision(CircleFigure circleFigure) {
         float leftGoalPostRightEnd = gameState.getLeftGoalPosts().get(0).getLength();
         ArrayList<GoalPost> leftGoalPosts = gameState.getLeftGoalPosts();
 
-        for (int i = 0; i < leftGoalPosts.size(); i++) {
-            float distance = calcTwoDotsDistance(leftGoalPostRightEnd, leftGoalPosts.get(i).getY(),
-                    circleFigure.getX(), circleFigure.getY());
-            if (leftGoalPostRightEnd < circleFigure.getX() && distance < circleFigure.getRadius())
-                return true;
-        }
-        return false;
+        float distance = calcTwoDotsDistance(leftGoalPostRightEnd, leftGoalPosts.get(0).getY(),
+                circleFigure.getX(), circleFigure.getY());
+        return leftGoalPostRightEnd < circleFigure.getX() && distance < circleFigure.getRadius();
     }
 
-    private boolean checkCircleAndRightGoalPostEdgeCollision(CircleFigure circleFigure) {
+    private boolean checkCircleAndLeftDownGoalPostEdgeCollision(CircleFigure circleFigure) {
+        float leftGoalPostRightEnd = gameState.getLeftGoalPosts().get(1).getLength();
+        ArrayList<GoalPost> leftGoalPosts = gameState.getLeftGoalPosts();
+
+        float distance = calcTwoDotsDistance(leftGoalPostRightEnd, leftGoalPosts.get(1).getY(),
+                circleFigure.getX(), circleFigure.getY());
+        return leftGoalPostRightEnd < circleFigure.getX() && distance < circleFigure.getRadius();
+
+    }
+
+    private boolean checkCircleAndRightUpGoalPostEdgeCollision(CircleFigure circleFigure) {
         float rightGoalPostLeftEnd = 1 - gameState.getRightGoalPosts().get(0).getLength();
         ArrayList<GoalPost> rightGoalPosts = gameState.getRightGoalPosts();
 
-        for (int i = 0; i < rightGoalPosts.size(); i++) {
-            float distance = calcTwoDotsDistance(rightGoalPostLeftEnd, rightGoalPosts.get(i).getY(),
-                    circleFigure.getX(), circleFigure.getY());
-            if (rightGoalPostLeftEnd > circleFigure.getX() && distance < circleFigure.getRadius())
-                return true;
-        }
-        return false;
+        float distance = calcTwoDotsDistance(rightGoalPostLeftEnd, rightGoalPosts.get(0).getY(),
+                circleFigure.getX(), circleFigure.getY());
+        return rightGoalPostLeftEnd > circleFigure.getX() && distance < circleFigure.getRadius();
+
+    }
+
+    private boolean checkCircleAndRightDownGoalPostEdgeCollision(CircleFigure circleFigure) {
+        float rightGoalPostLeftEnd = 1 - gameState.getRightGoalPosts().get(1).getLength();
+        ArrayList<GoalPost> rightGoalPosts = gameState.getRightGoalPosts();
+
+        float distance = calcTwoDotsDistance(rightGoalPostLeftEnd, rightGoalPosts.get(1).getY(),
+                circleFigure.getX(), circleFigure.getY());
+        return rightGoalPostLeftEnd > circleFigure.getX() && distance < circleFigure.getRadius();
 
     }
 

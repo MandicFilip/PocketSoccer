@@ -5,9 +5,10 @@ import android.graphics.Color;
 import com.example.mandula.pocketsoccer.common.GameOutcome;
 import com.example.mandula.pocketsoccer.common.GameParameters;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class GameState {
+public class GameState implements Serializable {
     private ArrayList<Disk> homeDisks;
     private ArrayList<Disk> awayDisks;
 
@@ -20,6 +21,10 @@ public class GameState {
     private ArrayList<GoalPost> rightGoalPosts;
 
     private int timeLeft;
+    private int turn = 0; //home player plays first
+
+    public final float screenWidth = 1f;
+    public float screenHeight = 0.8f;
 
     public GameState(GameParameters gameParameters) {
         this.gameParameters = gameParameters;
@@ -100,11 +105,28 @@ public class GameState {
         return timeLeft;
     }
 
+    public void decreaseTime() {
+        timeLeft--;
+    }
+
     public ArrayList<GoalPost> getLeftGoalPosts() {
         return leftGoalPosts;
     }
 
     public ArrayList<GoalPost> getRightGoalPosts() {
         return rightGoalPosts;
+    }
+
+    public int getTurn() {
+        return turn;
+    }
+
+    public void changeTurn() {
+        if (turn == 0) turn = 1;
+        else turn = 0;
+    }
+
+    public void setScreenHeightProportion(float screenHeight) {
+        this.screenHeight = screenHeight;
     }
 }

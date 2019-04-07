@@ -11,7 +11,9 @@ import android.widget.Button;
 import com.example.mandula.pocketsoccer.R;
 import com.example.mandula.pocketsoccer.common.GameOutcome;
 import com.example.mandula.pocketsoccer.common.GameParameters;
+import com.example.mandula.pocketsoccer.game.BasicComputerPlayer;
 import com.example.mandula.pocketsoccer.game.CollisionDetector;
+import com.example.mandula.pocketsoccer.game.GameMoveResolver;
 import com.example.mandula.pocketsoccer.game.GameThreadWorker;
 import com.example.mandula.pocketsoccer.game.GameView;
 import com.example.mandula.pocketsoccer.game.gamedata.GameState;
@@ -40,11 +42,15 @@ public class GameActivity extends AppCompatActivity {
 
         gameView = findViewById(R.id.game_view_id);
         gameState = new GameState(gameParameters);
-        gameView.setGameState(gameState);
 
         collisionDetector = new CollisionDetector(gameState);
-        gameThreadWorker = new GameThreadWorker(this, gameView, gameState, collisionDetector);
+        gameThreadWorker = new GameThreadWorker(this, gameState, collisionDetector);
 
+        BasicComputerPlayer basicComputerPlayer = new BasicComputerPlayer(gameState);
+        GameMoveResolver gameMoveResolver = new GameMoveResolver(gameState, gameThreadWorker, basicComputerPlayer);
+        gameView.setGameState(gameState, gameMoveResolver);
+
+        gameThreadWorker.setGameView(gameView);
         gameThreadWorker.setActiveGame(true);
         Thread thread = new Thread(gameThreadWorker);
         thread.start();

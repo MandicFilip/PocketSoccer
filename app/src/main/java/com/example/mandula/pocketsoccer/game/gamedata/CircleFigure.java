@@ -58,5 +58,5 @@ public abstract class CircleFigure {
         return r;
     }
 
-    public abstract void drawCircle(Canvas canvas, Paint paint, int width, int height);
+    public abstract void drawCircle(Canvas canvas, Paint paint, int width, int height, boolean turn);
 }

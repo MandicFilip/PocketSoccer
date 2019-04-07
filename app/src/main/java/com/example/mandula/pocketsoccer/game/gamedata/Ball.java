@@ -12,7 +12,7 @@ public class Ball extends CircleFigure {
     }
 
     @Override
-    public void drawCircle(Canvas canvas, Paint paint, int width, int height) {
+    public void drawCircle(Canvas canvas, Paint paint, int width, int height, boolean turn) {
         paint.setColor(Color.YELLOW);
 
         canvas.drawCircle(x * width, y * height, r * canvas.getWidth(), paint);

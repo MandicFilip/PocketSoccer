@@ -14,7 +14,7 @@ public class Disk extends CircleFigure {
     }
 
     @Override
-    public void drawCircle(Canvas canvas, Paint paint, int width, int height) {
+    public void drawCircle(Canvas canvas, Paint paint, int width, int height, boolean turn) {
         paint.setColor(colorToUse);
 
         canvas.drawCircle(x * width, y * height, r * canvas.getWidth(), paint);
