@@ -12,13 +12,10 @@ public class GoalPost {
     private float x; //left end position
     private float y; //y coordinate
 
-    private int width;
-
-    public GoalPost(float length, float x, float y, int width) {
+    public GoalPost(float length, float x, float y) {
         this.length = length;
         this.x = x;
         this.y = y;
-        this.width = width;
     }
 
     public float getLength() {
@@ -45,17 +42,10 @@ public class GoalPost {
         this.y = y;
     }
 
-    public int getWidth() {
-        return width;
-    }
-
-    public void setWidth(int width) {
-        this.width = width;
-    }
-
     public void drawGoalPost(Canvas canvas, Paint paint, int width, int height) {
         paint.setColor(color);
-        paint.setStrokeWidth(width);
-        canvas.drawLine(x * height, y * width, x * height + length, y * width, paint);
+        paint.setStrokeWidth(8);
+        canvas.drawLine(x * width, y * width,
+                (x + length) * width + length, y * width, paint);
     }
 }

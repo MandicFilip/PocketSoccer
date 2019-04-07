@@ -29,7 +29,10 @@ public class GameThreadWorker implements Runnable {
                     e.printStackTrace();
                 }
                 timeLeftToPlay--;
-                if (timeLeftToPlay <= 0) gameState.changeTurn();
+                if (timeLeftToPlay <= 0) {
+                    gameState.changeTurn();
+                    timeLeftToPlay = TIME_TO_PLAY_MOVE;
+                }
             }
         }
     }
@@ -99,7 +102,7 @@ public class GameThreadWorker implements Runnable {
             checkIfGoalScored();
             checkGameCondition();
 
-            collisionDetector.detectAndResolveCollisions();
+//            collisionDetector.detectAndResolveCollisions();
             recalculateNewPositions();
             gameView.repaintState();
 
@@ -152,9 +155,9 @@ public class GameThreadWorker implements Runnable {
 
     private float getConst() {
         Speed speed = gameState.getGameParameters().getGameSpeed();
-        if (speed == Speed.SLOW) return 0.98f;
-        if (speed == Speed.MEDIUM) return 1f;
-        return 1.02f;
+        if (speed == Speed.SLOW) return 0.2f;
+        if (speed == Speed.MEDIUM) return 0.25f;
+        return 0.3f;
     }
 
     private void checkGameCondition() {

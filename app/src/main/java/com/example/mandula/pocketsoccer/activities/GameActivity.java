@@ -24,6 +24,7 @@ public class GameActivity extends AppCompatActivity {
     private GameView gameView;
     private GameThreadWorker gameThreadWorker;
     private CollisionDetector collisionDetector;
+    private GameMoveResolver gameMoveResolver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,19 +48,29 @@ public class GameActivity extends AppCompatActivity {
         gameThreadWorker = new GameThreadWorker(this, gameState, collisionDetector);
 
         BasicComputerPlayer basicComputerPlayer = new BasicComputerPlayer(gameState);
-        GameMoveResolver gameMoveResolver = new GameMoveResolver(gameState, gameThreadWorker, basicComputerPlayer);
-        gameView.setGameState(gameState, gameMoveResolver);
+        gameMoveResolver = new GameMoveResolver(gameState, gameThreadWorker, basicComputerPlayer);
 
         gameThreadWorker.setGameView(gameView);
         gameThreadWorker.setActiveGame(true);
-        Thread thread = new Thread(gameThreadWorker);
-        thread.start();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
+        (new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                gameView.setGameState(gameState, gameMoveResolver);
+                Thread thread = new Thread(gameThreadWorker);
+                thread.start();
+            }
+        })).start();
         //TODO implement
     }
 

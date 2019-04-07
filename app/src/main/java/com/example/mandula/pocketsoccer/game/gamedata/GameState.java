@@ -24,7 +24,7 @@ public class GameState implements Serializable {
     private int turn = 0; //home player plays first
 
     public final float screenWidth = 1f;
-    public float screenHeight = 0.8f;
+    public float screenHeight = 0.608f;
 
     public GameState(GameParameters gameParameters) {
         this.gameParameters = gameParameters;
@@ -37,25 +37,25 @@ public class GameState implements Serializable {
         homeDisks = new ArrayList<>();
         awayDisks = new ArrayList<>();
 
-        homeDisks.add(new Disk(Color.BLUE, 0.2f, 0.25f));
-        homeDisks.add(new Disk(Color.BLUE, 0.4f, 0.5f));
-        homeDisks.add(new Disk(Color.BLUE, 0.2f, 0.75f));
+        homeDisks.add(new Disk(Color.BLUE, 0.15f, 0.2f * screenHeight));
+        homeDisks.add(new Disk(Color.BLUE, 0.3f, 0.5f * screenHeight));
+        homeDisks.add(new Disk(Color.BLUE, 0.15f, 0.8f * screenHeight));
 
-        awayDisks.add(new Disk(Color.RED, 0.8f, 0.25f));
-        awayDisks.add(new Disk(Color.RED, 0.6f, 0.5f));
-        awayDisks.add(new Disk(Color.RED, 0.8f, 0.75f));
+        awayDisks.add(new Disk(Color.RED, 0.85f, 0.2f * screenHeight));
+        awayDisks.add(new Disk(Color.RED, 0.7f, 0.5f * screenHeight));
+        awayDisks.add(new Disk(Color.RED, 0.85f, 0.8f * screenHeight));
 
-        ball = new Ball(0.5f, 0.5f);
+        ball = new Ball(0.5f, 0.5f * screenHeight);
 
         timeLeft = gameParameters.getMinutesToPlay() * 60;
 
         leftGoalPosts = new ArrayList<>();
-        leftGoalPosts.add(new GoalPost(0.1f, 0f, 0.3f, 4));
-        leftGoalPosts.add(new GoalPost(0.1f, 0f, 0.7f, 4));
+        leftGoalPosts.add(new GoalPost(0.1f, 0f, 0.3f * screenHeight));
+        leftGoalPosts.add(new GoalPost(0.1f, 0f, 0.7f * screenHeight));
 
         rightGoalPosts = new ArrayList<>();
-        rightGoalPosts.add(new GoalPost(0.1f, 0.9f, 0.3f, 4));
-        rightGoalPosts.add(new GoalPost(0.1f, 0.9f, 0.7f, 4));
+        rightGoalPosts.add(new GoalPost(0.1f, 0.9f, 0.3f * screenHeight));
+        rightGoalPosts.add(new GoalPost(0.1f, 0.9f, 0.7f * screenHeight));
     }
 
     public void moveToInitialPositions() {

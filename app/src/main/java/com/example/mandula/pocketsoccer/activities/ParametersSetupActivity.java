@@ -82,9 +82,9 @@ public class ParametersSetupActivity extends AppCompatActivity {
         timeRadio = findViewById(R.id.time_radio_id);
         goalsRadio = findViewById(R.id.goals_radio_id);
 
-        gameSlowRadio = findViewById(R.id.ball_slow_radio_id);
-        gameMediumRadio = findViewById(R.id.ball_medium__radio_id);
-        gameFastRadio = findViewById(R.id.ball_fast__radio_id);
+        gameSlowRadio = findViewById(R.id.game_slow_radio_id);
+        gameMediumRadio = findViewById(R.id.game_medium__radio_id);
+        gameFastRadio = findViewById(R.id.game_fast__radio_id);
 
         singlePlayerRadio = findViewById(R.id.single_player__radio_id);
         multiPlayerRadio = findViewById(R.id.multi_player_radio_id);
@@ -93,8 +93,8 @@ public class ParametersSetupActivity extends AppCompatActivity {
 
         backgroundRadioGroup = findViewById(R.id.background_radio_group_id);
         conditionRadioGroup = findViewById(R.id.game_condition_radio_group_id);
-        gameSpeedRadioGroup = findViewById(R.id.ball_speed_radio_group_id);
-        gameTypeRadioGroup = findViewById(R.id.disks_speed_radio_group_id);
+        gameSpeedRadioGroup = findViewById(R.id.game_speed_radio_group_id);
+        gameTypeRadioGroup = findViewById(R.id.game_type_radio_group_id);
     }
 
     private void setupGUI(GameParameters gameParameters) {

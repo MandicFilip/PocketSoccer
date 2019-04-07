@@ -24,8 +24,8 @@ public class GameView extends View {
     private GameState gameState;
     private Paint paint = new Paint();
 
-    private int width = getWidth();
-    private int height = getHeight();
+    private int width;
+    private int height;
 
     private GameMoveResolver gameMoveResolver;
 
@@ -45,7 +45,11 @@ public class GameView extends View {
         this.gameState = gameState;
         this.gameMoveResolver = gameMoveResolver;
 
-        gameState.setScreenHeightProportion(height / width);
+        if (getWidth() != 0) {
+            width = getWidth();
+            height = getHeight();
+            gameState.setScreenHeightProportion(height / width);
+        }
     }
 
     public void repaintState() {
@@ -62,6 +66,8 @@ public class GameView extends View {
         super.onDraw(canvas);
 
         paintBackground();
+
+        if (gameState == null) return;
 
         ArrayList<GoalPost> posts = gameState.getLeftGoalPosts();
 
@@ -93,7 +99,7 @@ public class GameView extends View {
     }
 
     private void paintBackground() {
-        paint.setColor(Color.GREEN);
+        setBackgroundColor(Color.GREEN);
     }
 
     private void printResult() {
@@ -106,8 +112,8 @@ public class GameView extends View {
 
     private void isTouchOnDisksFromList(float x, float y, ArrayList<Disk> disks, int type) {
         for (Disk disk: disks) {
-            float relativeX = x / getWidth();
-            float relativeY = y / getHeight();
+            float relativeX = x / width;
+            float relativeY = y / width;
 
             float distance = calcDistance(relativeX, relativeY, disk.getX(), disk.getY());
 
@@ -126,8 +132,8 @@ public class GameView extends View {
                     gameState.getAwayDisks(), AWAY_TURN_FLAG);
 
         } else if (event.getAction() == MotionEvent.ACTION_UP) {
-            float relativeX = event.getX() / getWidth();
-            float relativeY = event.getY() / getHeight();
+            float relativeX = event.getX() / width;
+            float relativeY = event.getY() / width;
             gameMoveResolver.endMove(relativeX, relativeY);
         }
 

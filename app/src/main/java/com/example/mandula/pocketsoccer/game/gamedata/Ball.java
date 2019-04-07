@@ -8,13 +8,13 @@ public class Ball extends CircleFigure {
 
     public Ball(float x, float y) {
         super(x, y);
-        this.r = 0.01f;
+        this.r = 0.04f;
     }
 
     @Override
     public void drawCircle(Canvas canvas, Paint paint, int width, int height, boolean turn) {
         paint.setColor(Color.YELLOW);
 
-        canvas.drawCircle(x * width, y * height, r * canvas.getWidth(), paint);
+        canvas.drawCircle(x * width, y * width, r * canvas.getWidth(), paint);
     }
 }
