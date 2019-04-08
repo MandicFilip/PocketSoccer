@@ -73,18 +73,20 @@ public class CollisionResolver {
         float normalOnDisk2 = (float) Math.abs(Math.cos(disk2AngleDifference) * disk2Speed);
 
         float midNormal = (normalOnDisk1 + normalOnDisk2) / 2;
+        float disk1Parallel = (float) Math.sin(disk1AngleDifference) * disk1Speed;
+        float disk2Parallel = (float) Math.sin(disk2AngleDifference) * disk2Speed;
 
         float vx1 = (float) (-1 * Math.cos(disksDirectionDiffAngle) * midNormal +
-                                Math.cos(disksDirectionDiffAngle + Math.PI / 2));
+                                Math.cos(disksDirectionDiffAngle + Math.PI / 2) * disk1Parallel);
 
         float vy1 = (float) (-1 * Math.sin(disksDirectionDiffAngle) * midNormal +
-                Math.sin(disksDirectionDiffAngle + Math.PI / 2));
+                Math.sin(disksDirectionDiffAngle + Math.PI / 2) * disk1Parallel);
 
         float vx2 = (float) (Math.cos(disksDirectionDiffAngle) * midNormal +
-                Math.cos(disksDirectionDiffAngle + Math.PI / 2));
+                Math.cos(disksDirectionDiffAngle + Math.PI / 2) * disk2Parallel);
 
-        float vy2 = (float) (Math.cos(disksDirectionDiffAngle) * midNormal +
-                Math.cos(disksDirectionDiffAngle + Math.PI / 2));
+        float vy2 = (float) (Math.sin(disksDirectionDiffAngle) * midNormal +
+                Math.sin(disksDirectionDiffAngle + Math.PI / 2) * disk2Parallel);
 
         disk1.setVx(vx1);
         disk1.setVy(vy1);
@@ -192,18 +194,20 @@ public class CollisionResolver {
         float radiusRatioSquare = (float) Math.pow(disk.getRadius() / ball.getRadius(), 2);
 
         float midNormal = (radiusRatioSquare * normalOnDisk1 + normalOnDisk2) / (radiusRatioSquare + 1);
+        float diskParallel = (float) Math.sin(diskAngleDifference) * diskSpeed;
+        float ballParallel = (float) Math.sin(ballAngleDifference) * ballSpeed;
 
         float vx1 = (float) (-1 * Math.cos(circlesDirectionDiffAngle) * midNormal +
-                Math.cos(circlesDirectionDiffAngle + Math.PI / 2));
+                Math.cos(circlesDirectionDiffAngle + Math.PI / 2) * diskParallel);
 
         float vy1 = (float) (-1 * Math.sin(circlesDirectionDiffAngle) * midNormal +
-                Math.sin(circlesDirectionDiffAngle + Math.PI / 2));
+                Math.sin(circlesDirectionDiffAngle + Math.PI / 2) * diskParallel);
 
         float vx2 = (float) (Math.cos(circlesDirectionDiffAngle) * midNormal +
-                Math.cos(circlesDirectionDiffAngle + Math.PI / 2));
+                Math.cos(circlesDirectionDiffAngle + Math.PI / 2) * ballParallel);
 
         float vy2 = (float) (Math.cos(circlesDirectionDiffAngle) * midNormal +
-                Math.cos(circlesDirectionDiffAngle + Math.PI / 2));
+                Math.cos(circlesDirectionDiffAngle + Math.PI / 2) * ballParallel);
 
         disk.setVx(vx1);
         disk.setVy(vy1);
@@ -276,12 +280,13 @@ public class CollisionResolver {
         float ballSpeed = calcVectorIntensity(0, 0, ball.getVx(), ball.getVy());
 
         float normal = (float) Math.abs(Math.cos(ballAngleDifference) * ballSpeed);
+        float parallel = (float) Math.sin(ballAngleDifference) * ballSpeed;
 
         float vx = (float) (-1 * Math.cos(directionDiffAngle) * normal +
-                Math.cos(directionDiffAngle + Math.PI / 2));
+                Math.cos(directionDiffAngle + Math.PI / 2) * parallel);
 
         float vy = (float) (-1 * Math.sin(directionDiffAngle) * normal +
-                Math.sin(directionDiffAngle + Math.PI / 2));
+                Math.sin(directionDiffAngle + Math.PI / 2) * parallel);
 
         ball.setVx(vx);
         ball.setVy(vy);

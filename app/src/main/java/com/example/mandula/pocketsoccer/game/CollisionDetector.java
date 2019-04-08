@@ -85,39 +85,39 @@ public class CollisionDetector {
         ArrayList<Disk> homeDisks = gameState.getHomeDisks();
         ArrayList<Disk> awayDisks = gameState.getAwayDisks();
 
-//        //check collisions with same team
-//        if (checkCirclesCollision(homeDisks.get(0), homeDisks.get(1))) {
-//            collisionResolver.resolveDisksCollision(homeDisks.get(0), homeDisks.get(1));
-//        }
-//
-//        if (checkCirclesCollision(homeDisks.get(0), homeDisks.get(2))) {
-//            collisionResolver.resolveDisksCollision(homeDisks.get(0), homeDisks.get(2));
-//        }
-//
-//        if (checkCirclesCollision(homeDisks.get(1), homeDisks.get(2))) {
-//            collisionResolver.resolveDisksCollision(homeDisks.get(1), homeDisks.get(2));
-//        }
-//
-//        if (checkCirclesCollision(awayDisks.get(0), awayDisks.get(1))) {
-//            collisionResolver.resolveDisksCollision(awayDisks.get(0), awayDisks.get(1));
-//        }
-//
-//        if (checkCirclesCollision(awayDisks.get(0), awayDisks.get(2))) {
-//            collisionResolver.resolveDisksCollision(awayDisks.get(0), awayDisks.get(2));
-//        }
-//
-//        if (checkCirclesCollision(awayDisks.get(1), awayDisks.get(2))) {
-//            collisionResolver.resolveDisksCollision(awayDisks.get(1), awayDisks.get(2));
-//        }
-//
-//        //check collisions with opposite team
-//        for (int i = 0; i < homeDisks.size(); i++) {
-//            for (int j = 0; j < awayDisks.size(); j++) {
-//                if (checkCirclesCollision(homeDisks.get(i), awayDisks.get(j))) {
-//                    collisionResolver.resolveDisksCollision(awayDisks.get(i), awayDisks.get(j));
-//                }
-//            }
-//        }
+        //check collisions with same team
+        if (checkCirclesCollision(homeDisks.get(0), homeDisks.get(1))) {
+            collisionResolver.resolveDisksCollision(homeDisks.get(0), homeDisks.get(1));
+        }
+
+        if (checkCirclesCollision(homeDisks.get(0), homeDisks.get(2))) {
+            collisionResolver.resolveDisksCollision(homeDisks.get(0), homeDisks.get(2));
+        }
+
+        if (checkCirclesCollision(homeDisks.get(1), homeDisks.get(2))) {
+            collisionResolver.resolveDisksCollision(homeDisks.get(1), homeDisks.get(2));
+        }
+
+        if (checkCirclesCollision(awayDisks.get(0), awayDisks.get(1))) {
+            collisionResolver.resolveDisksCollision(awayDisks.get(0), awayDisks.get(1));
+        }
+
+        if (checkCirclesCollision(awayDisks.get(0), awayDisks.get(2))) {
+            collisionResolver.resolveDisksCollision(awayDisks.get(0), awayDisks.get(2));
+        }
+
+        if (checkCirclesCollision(awayDisks.get(1), awayDisks.get(2))) {
+            collisionResolver.resolveDisksCollision(awayDisks.get(1), awayDisks.get(2));
+        }
+
+        //check collisions with opposite team
+        for (int i = 0; i < homeDisks.size(); i++) {
+            for (int j = 0; j < awayDisks.size(); j++) {
+                if (checkCirclesCollision(homeDisks.get(i), awayDisks.get(j))) {
+                    collisionResolver.resolveDisksCollision(homeDisks.get(i), awayDisks.get(j));
+                }
+            }
+        }
 
         //check collisions with borders
         for (int i = 0; i < homeDisks.size(); i++) {
