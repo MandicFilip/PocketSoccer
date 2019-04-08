@@ -5,7 +5,7 @@ import com.example.mandula.pocketsoccer.game.gamedata.GameState;
 
 public class GameMoveResolver {
 
-    private static final float MOVE_TO_SPEED_CONST = 2f; //TODO change
+    private static final float MOVE_TO_SPEED_CONST = 1f; //TODO change
 
     private Disk currentDisk = null;
     private float startX;
@@ -41,7 +41,7 @@ public class GameMoveResolver {
         vy += (y - startY) * MOVE_TO_SPEED_CONST;
 
         currentDisk.setVx(vx);
-        currentDisk.setVx(vy);
+        currentDisk.setVy(vy);
 
         manageTurn();
     }

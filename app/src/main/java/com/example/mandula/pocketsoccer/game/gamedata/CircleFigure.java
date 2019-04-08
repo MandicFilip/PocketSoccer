@@ -2,6 +2,7 @@ package com.example.mandula.pocketsoccer.game.gamedata;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.util.Log;
 
 public abstract class CircleFigure {
     //position
