@@ -20,7 +20,7 @@ public class CollisionDetector {
     }
 
     public void detectAndResolveCollisions() {
-        //detectBallCollisions();
+        detectBallCollisions();
         detectDisksCollisions();
     }
 
@@ -62,8 +62,8 @@ public class CollisionDetector {
 
         if (checkCircleAndLeftUpGoalPostEdgeCollision(ball))
             collisionResolver.resolveBallAndGoalPostEdgeCollision(ball,
-                    gameState.getLeftGoalPosts().get(1).getLength(),
-                    gameState.getLeftGoalPosts().get(1).getY());
+                    gameState.getLeftGoalPosts().get(0).getLength(),
+                    gameState.getLeftGoalPosts().get(0).getY());
 
         if (checkCircleAndLeftDownGoalPostEdgeCollision(ball))
             collisionResolver.resolveBallAndGoalPostEdgeCollision(ball,

@@ -206,8 +206,8 @@ public class CollisionResolver {
         float vx2 = (float) (Math.cos(circlesDirectionDiffAngle) * midNormal +
                 Math.cos(circlesDirectionDiffAngle + Math.PI / 2) * ballParallel);
 
-        float vy2 = (float) (Math.cos(circlesDirectionDiffAngle) * midNormal +
-                Math.cos(circlesDirectionDiffAngle + Math.PI / 2) * ballParallel);
+        float vy2 = (float) (Math.sin(circlesDirectionDiffAngle) * midNormal +
+                Math.sin(circlesDirectionDiffAngle + Math.PI / 2) * ballParallel);
 
         disk.setVx(vx1);
         disk.setVy(vy1);

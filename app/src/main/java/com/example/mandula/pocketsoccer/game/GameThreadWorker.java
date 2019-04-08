@@ -101,8 +101,8 @@ public class GameThreadWorker implements Runnable {
     public void run() {
         while (activeGame) {
 
-            checkIfGoalScored();
-            checkGameCondition();
+//            checkIfGoalScored();
+//            checkGameCondition();
 
             if (gameState.isHeightSet()) {
                 collisionDetector.detectAndResolveCollisions();
