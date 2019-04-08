@@ -5,8 +5,8 @@ import com.example.mandula.pocketsoccer.game.gamedata.Disk;
 
 public class CollisionResolver {
 
-    private static final float COLLISION_BALL_SPEED_LOSS = 0.05f;
-    private static final float COLLISION_DISK_SPEED_LOSS = 0.05f;
+    private static final float COLLISION_BALL_SPEED_LOSS = 0.85f;
+    private static final float COLLISION_DISK_SPEED_LOSS = 0.85f;
 
     private float calcVectorIntensity(float x1, float y1, float x2, float y2) {
         return (float) Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
@@ -32,22 +32,22 @@ public class CollisionResolver {
     }
 
     private void decreaseDiskSpeed(Disk disk) {
-        float dx = disk.getX();
-        float dy = disk.getY();
+        float vx = disk.getVx();
+        float vy = disk.getVy();
 
-        dx -= dx * COLLISION_DISK_SPEED_LOSS;
-        dy -= dy * COLLISION_DISK_SPEED_LOSS;
+        vx *= COLLISION_DISK_SPEED_LOSS;
+        vy *= COLLISION_DISK_SPEED_LOSS;
 
-        disk.setX(dx);
-        disk.setY(dy);
+        disk.setVx(vx);
+        disk.setVy(vy);
     }
 
     private void decreaseBallSpeed(Ball ball) {
         float vx = ball.getVx();
         float vy = ball.getVy();
 
-        vx -= vx * COLLISION_BALL_SPEED_LOSS;
-        vy -= vy * COLLISION_BALL_SPEED_LOSS;
+        vx *= COLLISION_BALL_SPEED_LOSS;
+        vy *= COLLISION_BALL_SPEED_LOSS;
 
         ball.setVx(vx);
         ball.setVy(vy);
@@ -115,7 +115,7 @@ public class CollisionResolver {
     public void resolveDiskAndLeftBorderCollision(Disk disk) {
         float vx = disk.getVx();
         vx = Math.abs(vx); //change direction
-        disk.setVy(vx);
+        disk.setVx(vx);
 
         decreaseDiskSpeed(disk);
     }
@@ -123,7 +123,7 @@ public class CollisionResolver {
     public void resolveDiskAndRightBorderCollision(Disk disk) {
         float vx = disk.getVx();
         vx = -1 * Math.abs(vx); //change direction
-        disk.setVy(vx);
+        disk.setVx(vx);
 
         decreaseDiskSpeed(disk);
     }
@@ -233,7 +233,7 @@ public class CollisionResolver {
     public void resolveBallAndLeftBorderCollision(Ball ball) {
         float vx = ball.getVx();
         vx = Math.abs(vx); //change direction
-        ball.setVy(vx);
+        ball.setVx(vx);
 
         decreaseBallSpeed(ball);
     }
@@ -241,7 +241,7 @@ public class CollisionResolver {
     public void resolveBallAndRightBorderCollision(Ball ball) {
         float vx = ball.getVx();
         vx = -1 * Math.abs(vx); //change direction
-        ball.setVy(vx);
+        ball.setVx(vx);
 
         decreaseBallSpeed(ball);
     }

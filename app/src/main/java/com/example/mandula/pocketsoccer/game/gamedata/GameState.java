@@ -25,6 +25,7 @@ public class GameState implements Serializable {
 
     public final float screenWidth = 1f;
     public float screenHeight = 0.608f;
+    private boolean heightSet = false;
 
     public GameState(GameParameters gameParameters) {
         this.gameParameters = gameParameters;
@@ -128,5 +129,10 @@ public class GameState implements Serializable {
 
     public void setScreenHeightProportion(float screenHeight) {
         this.screenHeight = screenHeight;
+        if (screenHeight != 0) this.heightSet = true;
+    }
+
+    public boolean isHeightSet() {
+        return heightSet;
     }
 }

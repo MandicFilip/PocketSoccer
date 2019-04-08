@@ -57,6 +57,8 @@ public class GameThreadWorker implements Runnable {
         }
     }
 
+    private static final float FRICTION_FACTOR = 0.98f;
+
     private GameView gameView;
     private CollisionDetector collisionDetector;
     private boolean activeGame = false;
@@ -102,8 +104,10 @@ public class GameThreadWorker implements Runnable {
             checkIfGoalScored();
             checkGameCondition();
 
-//            collisionDetector.detectAndResolveCollisions();
-            recalculateNewPositions();
+            if (gameState.isHeightSet()) {
+                collisionDetector.detectAndResolveCollisions();
+                recalculateNewPositions();
+            }
             gameView.repaintState();
 
             try {
@@ -146,8 +150,8 @@ public class GameThreadWorker implements Runnable {
         float x = ball.getX();
         float y = ball.getY();
 
-        x += ball.getVx() * speedConst;
-        y += ball.getVy() * speedConst;
+        x += ball.getVx() * speedConst * FRICTION_FACTOR;
+        y += ball.getVy() * speedConst * FRICTION_FACTOR;
 
         ball.setX(x);
         ball.setY(y);
