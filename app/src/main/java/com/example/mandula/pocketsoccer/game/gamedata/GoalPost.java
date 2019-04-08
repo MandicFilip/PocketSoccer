@@ -12,6 +12,8 @@ public class GoalPost {
     private float x; //left end position
     private float y; //y coordinate
 
+    public static final int STROKE_SIZE = 32;
+
     public GoalPost(float length, float x, float y) {
         this.length = length;
         this.x = x;
@@ -44,7 +46,7 @@ public class GoalPost {
 
     public void drawGoalPost(Canvas canvas, Paint paint, int width, int height) {
         paint.setColor(color);
-        paint.setStrokeWidth(8);
+        paint.setStrokeWidth(STROKE_SIZE);
         canvas.drawLine(x * width, y * width,
                 (x + length) * width + length, y * width, paint);
     }

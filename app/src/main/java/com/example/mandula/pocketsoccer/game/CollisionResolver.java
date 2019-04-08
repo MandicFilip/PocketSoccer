@@ -5,8 +5,8 @@ import com.example.mandula.pocketsoccer.game.gamedata.Disk;
 
 public class CollisionResolver {
 
-    private static final float COLLISION_BALL_SPEED_LOSS = 0.85f;
-    private static final float COLLISION_DISK_SPEED_LOSS = 0.85f;
+    private static final float COLLISION_BALL_SPEED_LOSS = 0.90f;
+    private static final float COLLISION_DISK_SPEED_LOSS = 0.90f;
 
     private float calcVectorIntensity(float x1, float y1, float x2, float y2) {
         return (float) Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
@@ -157,12 +157,13 @@ public class CollisionResolver {
         float diskSpeed = calcVectorIntensity(0, 0, disk.getVx(), disk.getVy());
 
         float normal = (float) Math.abs(Math.cos(diskAngleDifference) * diskSpeed);
+        float parallel = (float) Math.sin(diskAngleDifference) * diskSpeed;
 
         float vx = (float) (-1 * Math.cos(directionDiffAngle) * normal +
-                Math.cos(directionDiffAngle + Math.PI / 2));
+                Math.cos(directionDiffAngle + Math.PI / 2) * parallel);
 
         float vy = (float) (-1 * Math.sin(directionDiffAngle) * normal +
-                Math.sin(directionDiffAngle + Math.PI / 2));
+                Math.sin(directionDiffAngle + Math.PI / 2) * parallel);
 
         disk.setVx(vx);
         disk.setVy(vy);

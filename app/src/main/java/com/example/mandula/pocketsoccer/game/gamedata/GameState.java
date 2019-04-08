@@ -25,6 +25,7 @@ public class GameState implements Serializable {
 
     public final float screenWidth = 1f;
     public float screenHeight = 0.608f;
+    public float goalPostHeight;
     private boolean heightSet = false;
 
     public GameState(GameParameters gameParameters) {
@@ -127,9 +128,14 @@ public class GameState implements Serializable {
         else turn = 0;
     }
 
-    public void setScreenHeightProportion(float screenHeight) {
+    public void setScreenHeightProportion(float screenHeight, int absHeight) {
         this.screenHeight = screenHeight;
+        this.goalPostHeight = GoalPost.STROKE_SIZE / absHeight;
         if (screenHeight != 0) this.heightSet = true;
+    }
+
+    public float getGoalPostHeight() {
+        return goalPostHeight;
     }
 
     public boolean isHeightSet() {

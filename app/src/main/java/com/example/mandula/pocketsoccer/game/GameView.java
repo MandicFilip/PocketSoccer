@@ -48,7 +48,7 @@ public class GameView extends View {
         if (getWidth() != 0) {
             width = getWidth();
             height = getHeight();
-            gameState.setScreenHeightProportion(height / (width * 1f));
+            gameState.setScreenHeightProportion(height / (width * 1f), height);
         }
     }
 
