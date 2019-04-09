@@ -26,6 +26,8 @@ public class GameActivity extends AppCompatActivity {
     private CollisionDetector collisionDetector;
     private GameMoveResolver gameMoveResolver;
 
+    private GameParameters gameParameters;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,8 +40,7 @@ public class GameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game);
 
         Intent intent = getIntent();
-        GameParameters gameParameters =
-                (GameParameters) intent.getSerializableExtra("GAME_PARAMETERS");
+        gameParameters = (GameParameters) intent.getSerializableExtra("GAME_PARAMETERS");
 
         gameView = findViewById(R.id.game_view_id);
         gameState = new GameState(gameParameters);
@@ -52,7 +53,7 @@ public class GameActivity extends AppCompatActivity {
 
         gameThreadWorker.setGameMoveResolver(gameMoveResolver);
         gameThreadWorker.setGameView(gameView);
-        gameThreadWorker.setActiveGame(true);
+        gameThreadWorker.setActiveGame();
     }
 
     @Override
@@ -83,7 +84,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
     public void finishGame() {
-        gameThreadWorker.setActiveGame(false);
+        gameThreadWorker.stopGame();
         Intent intent = getIntent();
         intent.putExtra("GAME_OUTCOME", gameState.getGameOutcome());
         setResult(RESULT_OK, intent);

@@ -33,7 +33,7 @@ public class GameParameters implements Serializable, Cloneable {
         gameEndCondition = GameEndCondition.TIME;
         minutesToPlay = minutes;
 
-        goalsLimit = -1;
+        goalsLimit = 1;
     }
 
     public void setGoalsGameInfo(Background background, Speed gameSpeed, GameType gameType, int goals) {
@@ -42,7 +42,7 @@ public class GameParameters implements Serializable, Cloneable {
         this.gameType = gameType;
 
         gameEndCondition = GameEndCondition.GOALS;
-        minutesToPlay = -1;
+        minutesToPlay = 0;
 
         goalsLimit = goals;
     }
@@ -62,7 +62,7 @@ public class GameParameters implements Serializable, Cloneable {
         gameEndCondition = GameEndCondition.GOALS;
 
         goalsLimit = 10;
-        minutesToPlay = -1;
+        minutesToPlay = 0;
     }
 
     @Override

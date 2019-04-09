@@ -1,7 +1,5 @@
 package com.example.mandula.pocketsoccer.game;
 
-import android.widget.Toast;
-
 import com.example.mandula.pocketsoccer.activities.GameActivity;
 import com.example.mandula.pocketsoccer.common.GameEndCondition;
 import com.example.mandula.pocketsoccer.common.GameOutcome;
@@ -89,9 +87,9 @@ public class GameThreadWorker implements Runnable {
         this.gameMoveResolver = gameMoveResolver;
     }
 
-    public void setActiveGame(boolean activeGame) {
+    public void setActiveGame() {
 
-        this.activeGame = activeGame;
+        this.activeGame = true;
 
         if (gameState.getGameParameters().getGameEndCondition() == GameEndCondition.TIME) {
             (new Thread(gameTimeTicker)).start();
@@ -102,6 +100,7 @@ public class GameThreadWorker implements Runnable {
     public void stopGame() {
         activeGame = false;
         gameTimeTicker.activeTimer = false;
+        timeForMoveTicker.activeMoveTimer = false;
     }
 
     public void restartTimeForMove() {
@@ -113,7 +112,7 @@ public class GameThreadWorker implements Runnable {
         while (activeGame) {
 
             if (!isGoalScored) checkIfGoalScored();
-//            checkGameCondition();
+            checkGameEndCondition();
 
             if (gameState.isHeightSet()) {
                 collisionDetector.detectAndResolveCollisions();
@@ -175,18 +174,42 @@ public class GameThreadWorker implements Runnable {
         return 0.3f;
     }
 
-    private void checkGameCondition() {
+    private void checkGameEndCondition() {
         GameEndCondition gameEndCondition = gameState.getGameParameters().getGameEndCondition();
         int timeLeft = gameState.getTimeLeft();
+
+        if (gameEndCondition == GameEndCondition.TIME && timeLeft <= 0) {
+            gameView.setPrintStatusScreen(true);
+            (new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    gameActivity.finishGame();
+                }
+            })).start();
+        }
+
         int goals = Math.max(gameState.getGameOutcome().getHomePlayerGoals(),
                 gameState.getGameOutcome().getAwayPlayerGoals());
 
-        if (gameEndCondition == GameEndCondition.TIME && timeLeft <= 0) {
-            gameActivity.finishGame();
-        }
-
-        if (gameEndCondition == GameEndCondition.GOALS && goals >= gameState.getGameParameters().getGoalsLimit()) {
-            gameActivity.finishGame();
+        if (gameEndCondition == GameEndCondition.GOALS &&
+                goals >= gameState.getGameParameters().getGoalsLimit()) {
+            gameView.setPrintStatusScreen(true);
+            (new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    gameActivity.finishGame();
+                }
+            })).start();
         }
     }
 

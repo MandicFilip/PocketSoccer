@@ -16,13 +16,6 @@ public class GameOutcome implements Serializable {
         this.awayPlayerName = awayPlayerName;
     }
 
-    public GameOutcome(String homePlayerName, String awayPlayerName) {
-        this.homePlayerGoals = 0;
-        this.awayPlayerGoals = 0;
-        this.homePlayerName = homePlayerName;
-        this.awayPlayerName = awayPlayerName;
-    }
-
     public void addHomePlayerGoal() {
         homePlayerGoals++;
     }

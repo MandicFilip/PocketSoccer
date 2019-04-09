@@ -8,6 +8,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.example.mandula.pocketsoccer.common.GameEndCondition;
 import com.example.mandula.pocketsoccer.game.gamedata.Disk;
 import com.example.mandula.pocketsoccer.game.gamedata.GameState;
 import com.example.mandula.pocketsoccer.game.gamedata.GoalPost;
@@ -19,6 +20,7 @@ public class GameView extends View {
     private static final float DISK_TOUCH_RADIUS_CONST = 1.2f;
     private static final float RESULT_TEXT_SIZE = 64;
 
+    private boolean printStatusScreen = false;
 
     private GameState gameState;
     private Paint paint = new Paint();
@@ -80,6 +82,11 @@ public class GameView extends View {
             goalPost.drawGoalPost(canvas, paint, width, height);
         }
 
+        if (printStatusScreen) {
+            printGameStatusScreen(canvas);
+            return;
+        }
+
         ArrayList<Disk> disks = gameState.getHomeDisks();
 
         for(Disk disk: disks) {
@@ -103,6 +110,18 @@ public class GameView extends View {
         setBackgroundColor(Color.GREEN);
     }
 
+    private void printGameStatusScreen(Canvas canvas) {
+        int homeGoals = gameState.getGameOutcome().getHomePlayerGoals();
+        int awayGoals = gameState.getGameOutcome().getAwayPlayerGoals();
+
+        paint.setColor(Color.WHITE);
+        paint.setTextSize(RESULT_TEXT_SIZE * 2);
+
+        canvas.drawText(String.format("%s  :  %s",
+                Integer.toString(homeGoals), Integer.toString(awayGoals)),
+                width * 2 / 5.0f, height * 0.5f, paint);
+    }
+
     private void printResult(Canvas canvas) {
         int seconds = gameState.getTimeLeft();
         int minutes = seconds / 60;
@@ -118,6 +137,10 @@ public class GameView extends View {
                 width / 2.0f, height * 0.1f, paint);
         canvas.drawText(Integer.toString(homeGoals), width * 1.0f / 4.0f, height * 0.1f, paint);
         canvas.drawText(Integer.toString(awayGoals), width * 3.0f / 4.0f, height * 0.1f, paint);
+    }
+
+    public void setPrintStatusScreen(boolean printEndScreen) {
+        this.printStatusScreen = printEndScreen;
     }
 
     private float calcDistance(float x1, float y1, float x2, float y2) {
