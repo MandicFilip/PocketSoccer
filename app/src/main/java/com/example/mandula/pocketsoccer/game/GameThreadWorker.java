@@ -1,5 +1,7 @@
 package com.example.mandula.pocketsoccer.game;
 
+import android.widget.Toast;
+
 import com.example.mandula.pocketsoccer.activities.GameActivity;
 import com.example.mandula.pocketsoccer.common.GameEndCondition;
 import com.example.mandula.pocketsoccer.common.GameOutcome;
@@ -30,8 +32,13 @@ public class GameThreadWorker implements Runnable {
                 }
                 timeLeftToPlay--;
                 if (timeLeftToPlay <= 0) {
-                    gameState.changeTurn();
-                    timeLeftToPlay = TIME_TO_PLAY_MOVE;
+                    gameMoveResolver.discardMove();
+
+                    int turn = gameState.getTurn();
+                    if (turn == GameMoveResolver.HOME_TURN_FLAG) turn = GameMoveResolver.AWAY_TURN_FLAG;
+                    else turn = GameMoveResolver.HOME_TURN_FLAG;
+
+                    gameMoveResolver.manageTurn(turn);
                 }
             }
         }
@@ -41,17 +48,15 @@ public class GameThreadWorker implements Runnable {
     private class GameTimeTicker implements Runnable{
 
         private boolean activeTimer = true;
-        private boolean countTime = true;
 
         @Override
         public void run() {
             while (activeTimer) {
-                if (countTime) {
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+                try {
+                    Thread.sleep(1000);
+                    gameState.decreaseTime();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
             }
         }
@@ -66,6 +71,8 @@ public class GameThreadWorker implements Runnable {
     private GameActivity gameActivity;
     private GameTimeTicker gameTimeTicker = new GameTimeTicker();
     private TimeForMoveTicker timeForMoveTicker = new TimeForMoveTicker();
+    private GameMoveResolver gameMoveResolver;
+    private boolean isGoalScored = false;
 
     public GameThreadWorker(GameActivity gameActivity,
                             GameState gameState, CollisionDetector collisionDetector) {
@@ -76,6 +83,10 @@ public class GameThreadWorker implements Runnable {
 
     public void setGameView(GameView gameView) {
         this.gameView = gameView;
+    }
+
+    public void setGameMoveResolver(GameMoveResolver gameMoveResolver) {
+        this.gameMoveResolver = gameMoveResolver;
     }
 
     public void setActiveGame(boolean activeGame) {
@@ -101,7 +112,7 @@ public class GameThreadWorker implements Runnable {
     public void run() {
         while (activeGame) {
 
-//            checkIfGoalScored();
+            if (!isGoalScored) checkIfGoalScored();
 //            checkGameCondition();
 
             if (gameState.isHeightSet()) {
@@ -194,7 +205,9 @@ public class GameThreadWorker implements Runnable {
             if (ball.getY() > leftGoalPosts.get(0).getY() && ball.getY() < leftGoalPosts.get(1).getY()) {
                 gameOutcome.addAwayPlayerGoal();
                 relocateCircles();
+                gameMoveResolver.manageTurn(GameMoveResolver.HOME_TURN_FLAG);
                 playCheerSound();
+                isGoalScored = true;
             }
         }
 
@@ -202,7 +215,9 @@ public class GameThreadWorker implements Runnable {
             if (ball.getY() > rightGoalPosts.get(0).getY() && ball.getY() < rightGoalPosts.get(1).getY()) {
                 gameOutcome.addHomePlayerGoal();
                 relocateCircles();
+                gameMoveResolver.manageTurn(GameMoveResolver.AWAY_TURN_FLAG);
                 playCheerSound();
+                isGoalScored = true;
             }
         }
     }
@@ -217,6 +232,7 @@ public class GameThreadWorker implements Runnable {
                     e.printStackTrace();
                 }
                 gameState.moveToInitialPositions();
+                isGoalScored = false;
                 //TODO maybe stop sound
             }
         })).start();

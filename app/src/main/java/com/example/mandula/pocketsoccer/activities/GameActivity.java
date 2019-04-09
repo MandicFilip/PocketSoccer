@@ -50,6 +50,7 @@ public class GameActivity extends AppCompatActivity {
         BasicComputerPlayer basicComputerPlayer = new BasicComputerPlayer(gameState);
         gameMoveResolver = new GameMoveResolver(gameState, gameThreadWorker, basicComputerPlayer);
 
+        gameThreadWorker.setGameMoveResolver(gameMoveResolver);
         gameThreadWorker.setGameView(gameView);
         gameThreadWorker.setActiveGame(true);
     }

@@ -1,11 +1,12 @@
 package com.example.mandula.pocketsoccer.game;
 
+import com.example.mandula.pocketsoccer.common.GameType;
 import com.example.mandula.pocketsoccer.game.gamedata.Disk;
 import com.example.mandula.pocketsoccer.game.gamedata.GameState;
 
 public class GameMoveResolver {
 
-    private static final float MOVE_TO_SPEED_CONST = 1f; //TODO change
+    private static final float MOVE_TO_SPEED_CONST = 0.5f;
 
     private Disk currentDisk = null;
     private float startX;
@@ -15,6 +16,9 @@ public class GameMoveResolver {
     private GameThreadWorker gameThreadWorker;
 
     private ComputerPlayer computerPlayer;
+
+    public static final int HOME_TURN_FLAG = 0;
+    public static final int AWAY_TURN_FLAG = 1;
 
     public GameMoveResolver(GameState gameState,
                             GameThreadWorker gameThreadWorker, ComputerPlayer computerPlayer) {
@@ -34,6 +38,12 @@ public class GameMoveResolver {
     public void endMove(float x, float y) {
         if (currentDisk == null) return;
 
+        if (gameState.getTurn() == AWAY_TURN_FLAG &&
+                gameState.getGameParameters().getGameType() == GameType.SINGLE_PLAYER) {
+            currentDisk = null;
+            return;
+        }
+
         float vx = currentDisk.getVx();
         float vy = currentDisk.getVy();
 
@@ -43,28 +53,43 @@ public class GameMoveResolver {
         currentDisk.setVx(vx);
         currentDisk.setVy(vy);
 
-        manageTurn();
+        int nextTurn = gameState.getTurn();
+
+        if (nextTurn == HOME_TURN_FLAG) nextTurn = AWAY_TURN_FLAG;
+        else nextTurn = HOME_TURN_FLAG;
+
+        manageTurn(nextTurn);
     }
 
-    private void manageTurn() {
-        gameState.changeTurn();
+    public void discardMove() {
+        currentDisk = null;
+    }
+
+    public void manageTurn(int turn) {
+        gameState.setTurn(turn);
         gameThreadWorker.restartTimeForMove();
+
+        if (turn == AWAY_TURN_FLAG && gameState.getGameParameters().getGameType() == GameType.SINGLE_PLAYER)
+            callComputerPlayer();
+    }
+
+    public void callComputerPlayer() {
 //TODO bot
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                try {
-//                    Thread.sleep(2000);  //computer player thinking
-//
-//                    computerPlayer.playMove();
-//
-//                    gameState.changeTurn();
-//                    gameThreadWorker.restartTimeForMove();
-//
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }).start();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(2000);  //computer player thinking
+
+                    computerPlayer.playMove();
+
+                    gameState.setTurn(HOME_TURN_FLAG);
+                    gameThreadWorker.restartTimeForMove();
+
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 }

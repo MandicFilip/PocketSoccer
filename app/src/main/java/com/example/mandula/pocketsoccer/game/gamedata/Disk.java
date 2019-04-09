@@ -11,7 +11,7 @@ public class Disk extends CircleFigure {
     public Disk(int colorToUse, float x, float y) {
         super(x, y);
         this.colorToUse = colorToUse;
-        this.r = 0.07f;
+        this.r = 0.06f;
     }
 
     @Override

@@ -4,6 +4,7 @@ import android.graphics.Color;
 
 import com.example.mandula.pocketsoccer.common.GameOutcome;
 import com.example.mandula.pocketsoccer.common.GameParameters;
+import com.example.mandula.pocketsoccer.game.GameMoveResolver;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -28,6 +29,27 @@ public class GameState implements Serializable {
     public float goalPostHeight;
     private boolean heightSet = false;
 
+    private static final float BALL_X = 0.5f;
+    private static final float BALL_Y = 0.5f;
+
+    private static final float HOME_DISK_0_X = 0.15f;
+    private static final float HOME_DISK_0_Y = 0.2f;
+
+    private static final float HOME_DISK_1_X = 0.3f;
+    private static final float HOME_DISK_1_Y = 0.5f;
+
+    private static final float HOME_DISK_2_X = 0.15f;
+    private static final float HOME_DISK_2_Y = 0.8f;
+
+    private static final float AWAY_DISK_0_X = 0.85f;
+    private static final float AWAY_DISK_0_Y = 0.2f;
+
+    private static final float AWAY_DISK_1_X = 0.7f;
+    private static final float AWAY_DISK_1_Y = 0.5f;
+
+    private static final float AWAY_DISK_2_X = 0.85f;
+    private static final float AWAY_DISK_2_Y = 0.8f;
+
     public GameState(GameParameters gameParameters) {
         this.gameParameters = gameParameters;
 
@@ -39,15 +61,15 @@ public class GameState implements Serializable {
         homeDisks = new ArrayList<>();
         awayDisks = new ArrayList<>();
 
-        homeDisks.add(new Disk(Color.BLUE, 0.15f, 0.2f * screenHeight));
-        homeDisks.add(new Disk(Color.BLUE, 0.3f, 0.5f * screenHeight));
-        homeDisks.add(new Disk(Color.BLUE, 0.15f, 0.8f * screenHeight));
+        homeDisks.add(new Disk(Color.BLUE, HOME_DISK_0_X, HOME_DISK_0_Y * screenHeight));
+        homeDisks.add(new Disk(Color.BLUE, HOME_DISK_1_X, HOME_DISK_1_Y * screenHeight));
+        homeDisks.add(new Disk(Color.BLUE, HOME_DISK_2_X, HOME_DISK_2_Y * screenHeight));
 
-        awayDisks.add(new Disk(Color.RED, 0.85f, 0.2f * screenHeight));
-        awayDisks.add(new Disk(Color.RED, 0.7f, 0.5f * screenHeight));
-        awayDisks.add(new Disk(Color.RED, 0.85f, 0.8f * screenHeight));
+        awayDisks.add(new Disk(Color.RED, AWAY_DISK_0_X, AWAY_DISK_0_Y * screenHeight));
+        awayDisks.add(new Disk(Color.RED, AWAY_DISK_1_X, AWAY_DISK_1_Y * screenHeight));
+        awayDisks.add(new Disk(Color.RED, AWAY_DISK_2_X, AWAY_DISK_2_Y * screenHeight));
 
-        ball = new Ball(0.5f, 0.5f * screenHeight);
+        ball = new Ball(BALL_X, BALL_Y * screenHeight);
 
         timeLeft = gameParameters.getMinutesToPlay() * 60;
 
@@ -61,26 +83,40 @@ public class GameState implements Serializable {
     }
 
     public void moveToInitialPositions() {
-        homeDisks.get(0).setX(0.2f);
-        homeDisks.get(0).setY(0.25f);
+        homeDisks.get(0).setX(HOME_DISK_0_X);
+        homeDisks.get(0).setY(HOME_DISK_0_Y * screenHeight);
+        homeDisks.get(0).setVx(0f);
+        homeDisks.get(0).setVy(0f);
 
-        homeDisks.get(1).setX(0.4f);
-        homeDisks.get(1).setY(0.5f);
+        homeDisks.get(1).setX(HOME_DISK_1_X);
+        homeDisks.get(1).setY(HOME_DISK_1_Y * screenHeight);
+        homeDisks.get(1).setVx(0f);
+        homeDisks.get(1).setVy(0f);
 
-        homeDisks.get(2).setX(0.2f);
-        homeDisks.get(2).setY(0.75f);
+        homeDisks.get(2).setX(HOME_DISK_2_X);
+        homeDisks.get(2).setY(HOME_DISK_2_Y * screenHeight);
+        homeDisks.get(2).setVx(0f);
+        homeDisks.get(2).setVy(0f);
 
-        awayDisks.get(0).setX(0.2f);
-        awayDisks.get(0).setY(0.25f);
+        awayDisks.get(0).setX(AWAY_DISK_0_X);
+        awayDisks.get(0).setY(AWAY_DISK_0_Y * screenHeight);
+        awayDisks.get(0).setVx(0f);
+        awayDisks.get(0).setVy(0f);
 
-        awayDisks.get(1).setX(0.4f);
-        awayDisks.get(1).setY(0.5f);
+        awayDisks.get(1).setX(AWAY_DISK_1_X);
+        awayDisks.get(1).setY(AWAY_DISK_1_Y * screenHeight);
+        awayDisks.get(1).setVx(0f);
+        awayDisks.get(1).setVy(0f);
 
-        awayDisks.get(2).setX(0.2f);
-        awayDisks.get(2).setY(0.75f);
+        awayDisks.get(2).setX(AWAY_DISK_2_X);
+        awayDisks.get(2).setY(AWAY_DISK_2_Y * screenHeight);
+        awayDisks.get(2).setVx(0f);
+        awayDisks.get(2).setVy(0f);
 
-        ball.setX(0.5f);
-        ball.setY(0.5f);
+        ball.setX(BALL_X);
+        ball.setY(BALL_Y * screenHeight);
+        ball.setVx(0f);
+        ball.setVy(0f);
     }
 
     public ArrayList<Disk> getHomeDisks() {
@@ -123,19 +159,14 @@ public class GameState implements Serializable {
         return turn;
     }
 
-    public void changeTurn() {
-        if (turn == 0) turn = 1;
-        else turn = 0;
+    public void setTurn(int turn) {
+        this.turn = turn;
     }
 
     public void setScreenHeightProportion(float screenHeight, int absHeight) {
         this.screenHeight = screenHeight;
         this.goalPostHeight = GoalPost.STROKE_SIZE / absHeight;
         if (screenHeight != 0) this.heightSet = true;
-    }
-
-    public float getGoalPostHeight() {
-        return goalPostHeight;
     }
 
     public boolean isHeightSet() {

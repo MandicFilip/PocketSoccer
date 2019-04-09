@@ -8,7 +8,7 @@ public class Ball extends CircleFigure {
 
     public Ball(float x, float y) {
         super(x, y);
-        this.r = 0.04f;
+        this.r = 0.03f;
     }
 
     @Override

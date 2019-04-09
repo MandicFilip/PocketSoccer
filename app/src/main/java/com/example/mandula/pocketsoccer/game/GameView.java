@@ -17,9 +17,8 @@ import java.util.ArrayList;
 public class GameView extends View {
 
     private static final float DISK_TOUCH_RADIUS_CONST = 1.2f;
+    private static final float RESULT_TEXT_SIZE = 64;
 
-    public static final int HOME_TURN_FLAG = 0;
-    public static final int AWAY_TURN_FLAG = 1;
 
     private GameState gameState;
     private Paint paint = new Paint();
@@ -84,26 +83,41 @@ public class GameView extends View {
         ArrayList<Disk> disks = gameState.getHomeDisks();
 
         for(Disk disk: disks) {
-            disk.drawCircle(canvas, paint, width, height, gameState.getTurn() == HOME_TURN_FLAG);
+            disk.drawCircle(canvas, paint, width, height,
+                    gameState.getTurn() == GameMoveResolver.HOME_TURN_FLAG);
         }
 
         disks = gameState.getAwayDisks();
 
         for(Disk disk: disks) {
-            disk.drawCircle(canvas, paint, width, height, gameState.getTurn() == AWAY_TURN_FLAG);
+            disk.drawCircle(canvas, paint, width, height,
+                    gameState.getTurn() == GameMoveResolver.AWAY_TURN_FLAG);
         }
 
         gameState.getBall().drawCircle(canvas, paint, width, height, true);
 
-        printResult();
+        printResult(canvas);
     }
 
     private void paintBackground() {
         setBackgroundColor(Color.GREEN);
     }
 
-    private void printResult() {
-        //TODO print result - text at the top
+    private void printResult(Canvas canvas) {
+        int seconds = gameState.getTimeLeft();
+        int minutes = seconds / 60;
+        seconds %= 60;
+
+        int homeGoals = gameState.getGameOutcome().getHomePlayerGoals();
+        int awayGoals = gameState.getGameOutcome().getAwayPlayerGoals();
+
+        paint.setColor(Color.WHITE);
+        paint.setTextSize(RESULT_TEXT_SIZE);
+
+        canvas.drawText(String.format("%s : %s", Integer.toString(minutes), Integer.toString(seconds)),
+                width / 2.0f, height * 0.1f, paint);
+        canvas.drawText(Integer.toString(homeGoals), width * 1.0f / 4.0f, height * 0.1f, paint);
+        canvas.drawText(Integer.toString(awayGoals), width * 3.0f / 4.0f, height * 0.1f, paint);
     }
 
     private float calcDistance(float x1, float y1, float x2, float y2) {
@@ -127,9 +141,9 @@ public class GameView extends View {
     public boolean onTouchEvent(MotionEvent event) {
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             isTouchOnDisksFromList(event.getX(), event.getY(),
-                    gameState.getHomeDisks(), HOME_TURN_FLAG);
+                    gameState.getHomeDisks(), GameMoveResolver.HOME_TURN_FLAG);
             isTouchOnDisksFromList(event.getX(), event.getY(),
-                    gameState.getAwayDisks(), AWAY_TURN_FLAG);
+                    gameState.getAwayDisks(), GameMoveResolver.AWAY_TURN_FLAG);
 
         } else if (event.getAction() == MotionEvent.ACTION_UP) {
             float relativeX = event.getX() / width;
