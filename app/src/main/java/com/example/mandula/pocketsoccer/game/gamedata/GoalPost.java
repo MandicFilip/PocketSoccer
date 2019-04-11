@@ -4,7 +4,9 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
-public class GoalPost {
+import java.io.Serializable;
+
+public class GoalPost implements Serializable {
     private int color = Color.BLACK;
 
     private float length;

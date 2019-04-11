@@ -29,13 +29,16 @@ public class GameState implements Serializable {
     public float goalPostHeight;
     private boolean heightSet = false;
 
+    private boolean isFirstMove = false;
+    private boolean isGoalScored = false;
+
     private static final float BALL_X = 0.5f;
     private static final float BALL_Y = 0.5f;
 
     private static final float HOME_DISK_0_X = 0.15f;
     private static final float HOME_DISK_0_Y = 0.2f;
 
-    private static final float HOME_DISK_1_X = 0.3f;
+    private static final float HOME_DISK_1_X = 0.25f;
     private static final float HOME_DISK_1_Y = 0.5f;
 
     private static final float HOME_DISK_2_X = 0.15f;
@@ -44,7 +47,7 @@ public class GameState implements Serializable {
     private static final float AWAY_DISK_0_X = 0.85f;
     private static final float AWAY_DISK_0_Y = 0.2f;
 
-    private static final float AWAY_DISK_1_X = 0.7f;
+    private static final float AWAY_DISK_1_X = 0.75f;
     private static final float AWAY_DISK_1_Y = 0.5f;
 
     private static final float AWAY_DISK_2_X = 0.85f;
@@ -171,5 +174,21 @@ public class GameState implements Serializable {
 
     public boolean isHeightSet() {
         return heightSet;
+    }
+
+    public boolean isFirstMove() {
+        return isFirstMove;
+    }
+
+    public void setFirstMove(boolean firstMove) {
+        isFirstMove = firstMove;
+    }
+
+    public boolean isGoalScored() {
+        return isGoalScored;
+    }
+
+    public void setGoalScored(boolean goalScored) {
+        isGoalScored = goalScored;
     }
 }

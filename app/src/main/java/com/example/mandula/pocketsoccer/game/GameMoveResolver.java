@@ -16,6 +16,7 @@ public class GameMoveResolver {
     private GameThreadWorker gameThreadWorker;
 
     private ComputerPlayer computerPlayer;
+    private Thread botThread = null;
 
     public static final int HOME_TURN_FLAG = 0;
     public static final int AWAY_TURN_FLAG = 1;
@@ -25,6 +26,10 @@ public class GameMoveResolver {
         this.gameState = gameState;
         this.gameThreadWorker = gameThreadWorker;
         this.computerPlayer = computerPlayer;
+    }
+
+    public void interruptBotThread() {
+        if (botThread != null) botThread.interrupt();
     }
 
     public void startMove(Disk disk, float x, float y, int type) {
@@ -74,22 +79,28 @@ public class GameMoveResolver {
     }
 
     public void callComputerPlayer() {
-//TODO bot
-        new Thread(new Runnable() {
+        botThread = new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
-                    Thread.sleep(2000);  //computer player thinking
+                    int timeToSleep = (int)(Math.random() * 3 + 1);
+                    Thread.sleep(timeToSleep * 1000);  //computer player thinking
 
-                    computerPlayer.playMove();
+                    if (!gameState.isGoalScored() && gameState.getTurn() == AWAY_TURN_FLAG &&
+                            !Thread.currentThread().isInterrupted()) {
+                        if (gameState.isFirstMove()) {
+                            computerPlayer.playFirstMove();
+                            gameState.setGoalScored(false);
+                        } else computerPlayer.playStandardMove();
 
-                    gameState.setTurn(HOME_TURN_FLAG);
-                    gameThreadWorker.restartTimeForMove();
-
+                        manageTurn(HOME_TURN_FLAG);
+                    }
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+
                 }
+                botThread = null;
             }
-        }).start();
+        });
+        botThread.start();
     }
 }

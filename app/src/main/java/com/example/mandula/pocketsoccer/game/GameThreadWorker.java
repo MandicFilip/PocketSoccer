@@ -70,7 +70,7 @@ public class GameThreadWorker implements Runnable {
     private GameTimeTicker gameTimeTicker = new GameTimeTicker();
     private TimeForMoveTicker timeForMoveTicker = new TimeForMoveTicker();
     private GameMoveResolver gameMoveResolver;
-    private boolean isGoalScored = false;
+    private int nextPlayer = GameMoveResolver.HOME_TURN_FLAG;
 
     public GameThreadWorker(GameActivity gameActivity,
                             GameState gameState, CollisionDetector collisionDetector) {
@@ -111,7 +111,7 @@ public class GameThreadWorker implements Runnable {
     public void run() {
         while (activeGame) {
 
-            if (!isGoalScored) checkIfGoalScored();
+            if (!gameState.isGoalScored()) checkIfGoalScored();
             checkGameEndCondition();
 
             if (gameState.isHeightSet()) {
@@ -227,20 +227,20 @@ public class GameThreadWorker implements Runnable {
         if (leftGoalPostRightEnd > ball.getX()) {
             if (ball.getY() > leftGoalPosts.get(0).getY() && ball.getY() < leftGoalPosts.get(1).getY()) {
                 gameOutcome.addAwayPlayerGoal();
+                nextPlayer = GameMoveResolver.HOME_TURN_FLAG;
                 relocateCircles();
-                gameMoveResolver.manageTurn(GameMoveResolver.HOME_TURN_FLAG);
                 playCheerSound();
-                isGoalScored = true;
+                gameState.setGoalScored(true);
             }
         }
 
         if (rightGoalPostLeftEnd < ball.getX()) {
             if (ball.getY() > rightGoalPosts.get(0).getY() && ball.getY() < rightGoalPosts.get(1).getY()) {
                 gameOutcome.addHomePlayerGoal();
+                nextPlayer = GameMoveResolver.AWAY_TURN_FLAG;
                 relocateCircles();
-                gameMoveResolver.manageTurn(GameMoveResolver.AWAY_TURN_FLAG);
                 playCheerSound();
-                isGoalScored = true;
+                gameState.setGoalScored(true);
             }
         }
     }
@@ -254,8 +254,11 @@ public class GameThreadWorker implements Runnable {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+                gameMoveResolver.interruptBotThread();
                 gameState.moveToInitialPositions();
-                isGoalScored = false;
+                gameState.setFirstMove(true);
+                gameMoveResolver.manageTurn(nextPlayer);
+                gameState.setGoalScored(false);
                 //TODO maybe stop sound
             }
         })).start();

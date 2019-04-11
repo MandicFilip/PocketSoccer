@@ -9,5 +9,7 @@ public abstract class ComputerPlayer {
         this.gameState = gameState;
     }
 
-    public abstract void playMove();
+    public abstract void playStandardMove();
+
+    public abstract void playFirstMove();
 }

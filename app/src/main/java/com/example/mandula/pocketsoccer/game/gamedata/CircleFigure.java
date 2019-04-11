@@ -4,7 +4,9 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.Log;
 
-public abstract class CircleFigure {
+import java.io.Serializable;
+
+public abstract class CircleFigure implements Serializable {
     //position
     protected float x;
     protected float y;
