@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.mandula.pocketsoccer.R;
@@ -21,7 +22,7 @@ import com.example.mandula.pocketsoccer.database.entity.Game;
 public class MainActivity extends AppCompatActivity {
 
     private GameParameters gameParameters;
-    private boolean hasActiveGame = false;
+    private static boolean hasActiveGame = false;
 
     private static final int PARAMETERS_ACTIVITY_CODE = 5;
     private static final int PRE_GAME_ACTIVITY_CODE = 2;
@@ -52,6 +53,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        Button resumeButton = findViewById(R.id.button_resume_game_id);
+        super.onResume();
+        if (!hasActiveGame) resumeButton.setVisibility(View.GONE);
+    }
+
+    @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
@@ -61,11 +69,13 @@ public class MainActivity extends AppCompatActivity {
         editor.apply();
     }
 
-    public void onResumeGameClick(View view) { //TODO: change meaning
-        hasActiveGame = true;
-        Intent intent = new Intent(this, GameActivity.class);
-        intent.putExtra("GAME_PARAMETERS", gameParameters);
-        startActivityForResult(intent, GAME_ACTIVITY_CODE);
+    public void onResumeGameClick(View view) {
+        if (hasActiveGame) {
+            Intent intent = new Intent(this, GameActivity.class);
+            intent.putExtra("GAME_PARAMETERS", gameParameters);
+            intent.putExtra("NEW_GAME_FLAG", false);
+            startActivityForResult(intent, GAME_ACTIVITY_CODE);
+        }
     }
 
     public void onNewGameClick(View view) {
@@ -111,11 +121,12 @@ public class MainActivity extends AppCompatActivity {
                 hasActiveGame = true;
                 Intent intent = new Intent(this, GameActivity.class);
                 intent.putExtra("GAME_PARAMETERS", gameParameters);
+                intent.putExtra("NEW_GAME_FLAG", true);
                 startActivityForResult(intent, GAME_ACTIVITY_CODE);
             }
 
         } else if (requestCode == GAME_ACTIVITY_CODE) {
-
+            hasActiveGame = false;
             GameOutcome gameOutcome = (GameOutcome) data.getSerializableExtra("GAME_OUTCOME");
             insertPlayedGameInDatabase(gameOutcome);
 
