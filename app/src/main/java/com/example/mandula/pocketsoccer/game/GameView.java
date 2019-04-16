@@ -21,7 +21,8 @@ public class GameView extends View {
     private static final float RESULT_TEXT_SIZE = 64;
 
     private boolean printStatusScreen = false;
-
+    private boolean printResumeScreen = false;
+    private int resumeGameCounter = 0;
     private GameState gameState;
     private Paint paint = new Paint();
 
@@ -42,7 +43,16 @@ public class GameView extends View {
         super(context, attrs, defStyleAttr);
     }
 
-    public void setGameState(GameState gameState, GameMoveResolver gameMoveResolver) {
+    public void setPrintResumeScreen(int resumeGameCounter) {
+        this.printResumeScreen = true;
+        this.resumeGameCounter = resumeGameCounter;
+    }
+
+    public void resetPrintResumeScreen() {
+        this.printResumeScreen = false;
+    }
+
+        public void setGameState(GameState gameState, GameMoveResolver gameMoveResolver) {
         this.gameState = gameState;
         this.gameMoveResolver = gameMoveResolver;
 
@@ -70,6 +80,27 @@ public class GameView extends View {
 
         if (gameState == null) return;
 
+        if (printStatusScreen) {
+            printGameStatusScreen(canvas);
+        } else if (printResumeScreen) {
+            printGameResumeScreen(canvas);
+        } else printNormalState(canvas);
+    }
+
+    private void printGameResumeScreen(Canvas canvas) {
+        int homeGoals = gameState.getGameOutcome().getHomePlayerGoals();
+        int awayGoals = gameState.getGameOutcome().getAwayPlayerGoals();
+
+        paint.setColor(Color.WHITE);
+        paint.setTextSize(RESULT_TEXT_SIZE * 2);
+
+        canvas.drawText(String.format("%s  :  %s",
+                Integer.toString(homeGoals), Integer.toString(awayGoals)),
+                width * 2 / 5.0f, height * 0.7f, paint);
+        canvas.drawText(Integer.toString(resumeGameCounter), width * 0.5f, height * 0.3f, paint);
+    }
+
+    private void printNormalState(Canvas canvas) {
         ArrayList<GoalPost> posts = gameState.getLeftGoalPosts();
 
         for (GoalPost goalPost: posts) {
@@ -80,11 +111,6 @@ public class GameView extends View {
 
         for (GoalPost goalPost: posts) {
             goalPost.drawGoalPost(canvas, paint, width, height);
-        }
-
-        if (printStatusScreen) {
-            printGameStatusScreen(canvas);
-            return;
         }
 
         ArrayList<Disk> disks = gameState.getHomeDisks();
@@ -106,10 +132,6 @@ public class GameView extends View {
         printResult(canvas);
     }
 
-    private void paintBackground() {
-        setBackgroundColor(Color.GREEN);
-    }
-
     private void printGameStatusScreen(Canvas canvas) {
         int homeGoals = gameState.getGameOutcome().getHomePlayerGoals();
         int awayGoals = gameState.getGameOutcome().getAwayPlayerGoals();
@@ -120,6 +142,10 @@ public class GameView extends View {
         canvas.drawText(String.format("%s  :  %s",
                 Integer.toString(homeGoals), Integer.toString(awayGoals)),
                 width * 2 / 5.0f, height * 0.5f, paint);
+    }
+
+    private void paintBackground() {
+        setBackgroundColor(Color.GREEN);
     }
 
     private void printResult(Canvas canvas) {

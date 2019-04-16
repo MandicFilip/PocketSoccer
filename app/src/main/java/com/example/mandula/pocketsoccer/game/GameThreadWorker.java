@@ -60,7 +60,7 @@ public class GameThreadWorker implements Runnable {
         }
     }
 
-    private static final float FRICTION_FACTOR = 0.96f;
+    private static final float FRICTION_FACTOR = 0.92f;
 
     private GameView gameView;
     private CollisionDetector collisionDetector;
