@@ -2,6 +2,7 @@ package com.example.mandula.pocketsoccer.activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Window;
@@ -17,7 +18,6 @@ import com.example.mandula.pocketsoccer.game.GameView;
 import com.example.mandula.pocketsoccer.game.gamedata.GameState;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -55,16 +55,9 @@ public class GameActivity extends AppCompatActivity {
         isNewGame = intent.getBooleanExtra("NEW_GAME_FLAG", true);
 
         gameView = findViewById(R.id.game_view_id);
-
-        initializeGame();
     }
 
     private void initializeGame() {
-        if (isNewGame) {
-            isGameInterrupt = false;
-            getFileStreamPath(FILE_NAME).delete();
-        }
-
         if (isGameInterrupt) {
             try {
                 FileInputStream fis = getApplicationContext().openFileInput(FILE_NAME);
@@ -73,15 +66,19 @@ public class GameActivity extends AppCompatActivity {
             } catch (IOException | ClassNotFoundException e) {
                 e.printStackTrace();
             }
-            gameView.setPrintResumeScreen(RESUME_THREAD_SECONDS_TO_WAIT);
 
-        } else gameState = new GameState(gameParameters);
+        } else {
+            gameState = new GameState(gameParameters);
+        }
 
         collisionDetector = new CollisionDetector(gameState);
         gameThreadWorker = new GameThreadWorker(this, gameState, collisionDetector);
 
         BasicComputerPlayer basicComputerPlayer = new BasicComputerPlayer(gameState);
         gameMoveResolver = new GameMoveResolver(gameState, gameThreadWorker, basicComputerPlayer);
+
+        gameView = findViewById(R.id.game_view_id);
+        gameView.initView(gameState, gameMoveResolver);
 
         gameThreadWorker.setGameMoveResolver(gameMoveResolver);
         gameThreadWorker.setGameView(gameView);
@@ -97,6 +94,7 @@ public class GameActivity extends AppCompatActivity {
                     while (counter > 0) {
                         try {
                             gameView.setPrintResumeScreen(counter);
+                            gameView.repaintState();
                             Thread.sleep(1000);
                             counter--;
                         } catch (InterruptedException e) {
@@ -104,14 +102,26 @@ public class GameActivity extends AppCompatActivity {
                         }
                     }
                     gameView.resetPrintResumeScreen();
+                    Thread thread = new Thread(gameThreadWorker);
+                    thread.start();
                 }
             })).start();
+        } else {
+            Thread thread = new Thread(gameThreadWorker);
+            thread.start();
         }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+
+        if (isNewGame) isGameInterrupt = false;
+        else {
+            SharedPreferences sharedPreferences = getSharedPreferences("MY_GAME_PREFERENCES", MODE_PRIVATE);
+            isGameInterrupt = sharedPreferences.getBoolean("GAME_INTERRUPT", false);
+        }
+        isNewGame = false;
 
         (new Thread(new Runnable() {
             @Override
@@ -121,10 +131,6 @@ public class GameActivity extends AppCompatActivity {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                gameView = findViewById(R.id.game_view_id);
-                gameView.setGameState(gameState, gameMoveResolver);
-                Thread thread = new Thread(gameThreadWorker);
-                thread.start();
 
                 //get game state from file
                 initializeGame();
@@ -133,8 +139,8 @@ public class GameActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
+    protected void onPause() {
+        super.onPause();
 
         gameThreadWorker.stopGame();
         try {
@@ -142,10 +148,17 @@ public class GameActivity extends AppCompatActivity {
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(stream);
             objectOutputStream.writeObject(gameState);
             stream.getFD().sync();
-            isGameInterrupt = true;
+
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        isGameInterrupt = true;
+        SharedPreferences sharedPreferences =
+                getSharedPreferences("MY_GAME_PREFERENCES", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("GAME_INTERRUPT", isGameInterrupt);
+        editor.apply();
     }
 
     public void finishGame() {

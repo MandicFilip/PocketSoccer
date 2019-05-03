@@ -1,6 +1,7 @@
 package com.example.mandula.pocketsoccer.game.gamedata;
 
 import android.graphics.Color;
+import android.util.Log;
 
 import com.example.mandula.pocketsoccer.common.GameOutcome;
 import com.example.mandula.pocketsoccer.common.GameParameters;
@@ -190,5 +191,30 @@ public class GameState implements Serializable {
 
     public void setGoalScored(boolean goalScored) {
         isGoalScored = goalScored;
+    }
+
+    public void logDisksAndBall() {
+        Log.d("Home 0 x: ", "" + homeDisks.get(0).getX());
+        Log.d("Home 0 y: ", "" + homeDisks.get(0).getY());
+
+        Log.d("Home 1 x: ", "" + homeDisks.get(1).getX());
+        Log.d("Home 1 y: ", "" + homeDisks.get(1).getY());
+
+        Log.d("Home 2 x: ", "" + homeDisks.get(2).getX());
+        Log.d("Home 2 y: ", "" + homeDisks.get(2).getY());
+
+
+        Log.d("Away 0 x: ", "" + awayDisks.get(0).getX());
+        Log.d("Away 0 y: ", "" + awayDisks.get(0).getY());
+
+        Log.d("Away 1 x: ", "" + awayDisks.get(1).getX());
+        Log.d("Away 1 y: ", "" + awayDisks.get(1).getY());
+
+        Log.d("Away 2 x: ", "" + awayDisks.get(2).getX());
+        Log.d("Away 2 y: ", "" + awayDisks.get(2).getY());
+
+        Log.d("Ball x: ", "" + ball.getX());
+        Log.d("Ball y: ", "" + ball.getY());
+
     }
 }

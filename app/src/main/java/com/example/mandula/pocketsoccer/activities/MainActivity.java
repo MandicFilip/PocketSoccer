@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
         SharedPreferences sharedPreferences = getSharedPreferences("MY_PREFERENCES", MODE_PRIVATE);
         String readValue = sharedPreferences.getString("GAME_PARAMETERS", "NONE");
-//        hasActiveGame = sharedPreferences.getBoolean("HAS_ACTIVE_GAME", false);
+        hasActiveGame = sharedPreferences.getBoolean("HAS_ACTIVE_GAME", false);
 
         if ("NONE".equals(readValue) || readValue == null) {
             gameParameters = new GameParameters();
@@ -54,6 +54,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
+        SharedPreferences sharedPreferences = getSharedPreferences("MY_PREFERENCES", MODE_PRIVATE);
+        hasActiveGame = sharedPreferences.getBoolean("HAS_ACTIVE_GAME", false);
+
         Button resumeButton = findViewById(R.id.button_resume_game_id);
         super.onResume();
         if (!hasActiveGame) resumeButton.setVisibility(View.GONE);
@@ -79,8 +82,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onNewGameClick(View view) {
+        SharedPreferences sharedPreferences = getSharedPreferences("MY_PREFERENCES", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean("HAS_ACTIVE_GAME", true);
+        editor.apply();
+
         Intent intent = new Intent(this, PreGameActivity.class);
         intent.putExtra("GAME_PARAMETERS", gameParameters);
+
         startActivityForResult(intent, PRE_GAME_ACTIVITY_CODE);
     }
 
@@ -118,21 +127,32 @@ public class MainActivity extends AppCompatActivity {
 
             if (gameOn) {
                 gameParameters = (GameParameters) data.getSerializableExtra("GAME_PARAMETERS");
-                hasActiveGame = true;
                 Intent intent = new Intent(this, GameActivity.class);
                 intent.putExtra("GAME_PARAMETERS", gameParameters);
                 intent.putExtra("NEW_GAME_FLAG", true);
+
+                SharedPreferences sharedPreferences = getSharedPreferences("MY_PREFERENCES", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putBoolean("HAS_ACTIVE_GAME", true);
+                editor.apply();
+                hasActiveGame = true;
+
                 startActivityForResult(intent, GAME_ACTIVITY_CODE);
             }
 
         } else if (requestCode == GAME_ACTIVITY_CODE) {
-            hasActiveGame = false;
             GameOutcome gameOutcome = (GameOutcome) data.getSerializableExtra("GAME_OUTCOME");
             insertPlayedGameInDatabase(gameOutcome);
 
             Intent intent = new Intent(this, FaceToFaceStatisticsActivity.class);
             intent.putExtra("HOME_USER", gameOutcome.getHomePlayerName());
             intent.putExtra("AWAY_USER", gameOutcome.getAwayPlayerName());
+
+            SharedPreferences sharedPreferences = getSharedPreferences("MY_PREFERENCES", MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean("HAS_ACTIVE_GAME", false);
+            editor.apply();
+            hasActiveGame = false;
 
             startActivity(intent);
         }

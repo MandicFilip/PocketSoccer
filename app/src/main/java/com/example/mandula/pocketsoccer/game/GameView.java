@@ -52,7 +52,7 @@ public class GameView extends View {
         this.printResumeScreen = false;
     }
 
-        public void setGameState(GameState gameState, GameMoveResolver gameMoveResolver) {
+        public void initView(GameState gameState, GameMoveResolver gameMoveResolver) {
         this.gameState = gameState;
         this.gameMoveResolver = gameMoveResolver;
 
@@ -84,7 +84,9 @@ public class GameView extends View {
             printGameStatusScreen(canvas);
         } else if (printResumeScreen) {
             printGameResumeScreen(canvas);
-        } else printNormalState(canvas);
+        } else {
+            printNormalState(canvas);
+        }
     }
 
     private void printGameResumeScreen(Canvas canvas) {
