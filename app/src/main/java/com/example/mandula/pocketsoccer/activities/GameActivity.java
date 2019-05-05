@@ -1,8 +1,10 @@
 package com.example.mandula.pocketsoccer.activities;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.AudioManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Window;
@@ -12,6 +14,7 @@ import com.example.mandula.pocketsoccer.R;
 import com.example.mandula.pocketsoccer.common.GameParameters;
 import com.example.mandula.pocketsoccer.game.BasicComputerPlayer;
 import com.example.mandula.pocketsoccer.game.CollisionDetector;
+import com.example.mandula.pocketsoccer.game.GameAudioManager;
 import com.example.mandula.pocketsoccer.game.GameMoveResolver;
 import com.example.mandula.pocketsoccer.game.GameThreadWorker;
 import com.example.mandula.pocketsoccer.game.GameView;
@@ -34,6 +37,8 @@ public class GameActivity extends AppCompatActivity {
 
     private static boolean isGameInterrupt = false;
     private static final String FILE_NAME = "pocket_soccer_tmp_game_file";
+
+    private GameAudioManager gameAudioManager;
 
     private static final int RESUME_THREAD_SECONDS_TO_WAIT = 5;
 
@@ -70,6 +75,10 @@ public class GameActivity extends AppCompatActivity {
         } else {
             gameState = new GameState(gameParameters);
         }
+
+        gameAudioManager = new GameAudioManager(this,
+                (AudioManager) getSystemService(Context.AUDIO_SERVICE));
+        gameAudioManager.enableAudio();
 
         collisionDetector = new CollisionDetector(gameState);
         gameThreadWorker = new GameThreadWorker(this, gameState, collisionDetector);
@@ -159,6 +168,8 @@ public class GameActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean("GAME_INTERRUPT", isGameInterrupt);
         editor.apply();
+
+        gameAudioManager.disableAudio();
     }
 
     public void finishGame() {

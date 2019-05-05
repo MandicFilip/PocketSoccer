@@ -259,13 +259,12 @@ public class GameThreadWorker implements Runnable {
                 gameState.setFirstMove(true);
                 gameMoveResolver.manageTurn(nextPlayer);
                 gameState.setGoalScored(false);
-                //TODO maybe stop sound
             }
         })).start();
 
     }
 
     private void playCheerSound() {
-        //TODO implement
+        GameAudioManager.getInstance().playGoalScoredSound();
     }
 }

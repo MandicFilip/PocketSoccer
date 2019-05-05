@@ -33,14 +33,14 @@ public class CollisionDetector {
         for (int i = 0; i < homeDisks.size(); i++) {
             if (checkCirclesCollision(ball, homeDisks.get(i))) {
                 collisionResolver.resolveDiskAndBallCollision(homeDisks.get(i), ball);
-                //TODO play sound
+                GameAudioManager.getInstance().playDiskAndBallCollisionSound();
             }
         }
 
         for (int i = 0; i < awayDisks.size(); i++) {
             if (checkCirclesCollision(ball, awayDisks.get(i))) {
                 collisionResolver.resolveDiskAndBallCollision(awayDisks.get(i), ball);
-                //TODO play sound
+                GameAudioManager.getInstance().playDiskAndBallCollisionSound();
             }
         }
 
