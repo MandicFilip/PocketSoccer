@@ -6,22 +6,31 @@ import java.util.HashMap;
 
 public class FlagManager {
 
-    //TODO resize images - they are too big and app is too slow!
+    //TODO add gray images
 
     private static HashMap<String, Integer> flagsMap = new HashMap<>();
 
     private static int count = 0;
 
     static {
-        flagsMap.put("Argentina", R.drawable.brazil);
+        flagsMap.put("Argentina", R.drawable.argentina);
+
         flagsMap.put("Brazil", R.drawable.brazil);
+
         flagsMap.put("England", R.drawable.england);
+
         flagsMap.put("France", R.drawable.france);
+
         flagsMap.put("Germany", R.drawable.germany);
+
         flagsMap.put("Italy", R.drawable.italy);
+
         flagsMap.put("Poland", R.drawable.poland);
+
         flagsMap.put("Russia", R.drawable.russia);
+
         flagsMap.put("Serbia", R.drawable.serbia);
+
         flagsMap.put("Spain", R.drawable.spain);
     }
 

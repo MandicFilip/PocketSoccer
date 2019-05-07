@@ -15,6 +15,7 @@ public class Ball extends CircleFigure {
     public void drawCircle(Canvas canvas, Paint paint, int width, int height, boolean turn) {
         paint.setColor(Color.YELLOW);
 
+        //TODO change with image
         canvas.drawCircle(x * width, y * width, r * canvas.getWidth(), paint);
     }
 }
