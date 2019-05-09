@@ -8,6 +8,8 @@ import android.media.MediaPlayer;
 
 import com.example.mandula.pocketsoccer.R;
 
+//TODO change audio files
+
 public class GameAudioManager implements AudioManager.OnAudioFocusChangeListener {
     private boolean goalSoundPlaying = false;
     private boolean audioEnabled = false;

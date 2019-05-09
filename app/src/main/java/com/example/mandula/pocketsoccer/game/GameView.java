@@ -8,6 +8,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.example.mandula.pocketsoccer.common.FlagManager;
 import com.example.mandula.pocketsoccer.common.GameEndCondition;
 import com.example.mandula.pocketsoccer.game.gamedata.Disk;
 import com.example.mandula.pocketsoccer.game.gamedata.GameState;
@@ -31,16 +32,28 @@ public class GameView extends View {
 
     private GameMoveResolver gameMoveResolver;
 
+    private Context context;
+
     public GameView(Context context) {
         super(context);
+
+        this.context = context;
     }
 
     public GameView(Context context, AttributeSet attrs) {
         super(context, attrs);
+
+        this.context = context;
     }
 
     public GameView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+
+        this.context = context;
+    }
+
+    public void prepareImages(String home, String away) {
+        FlagManager.prepareFlagsForGame(context, home, away);
     }
 
     public void setPrintResumeScreen(int resumeGameCounter) {

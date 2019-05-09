@@ -11,6 +11,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.example.mandula.pocketsoccer.R;
+import com.example.mandula.pocketsoccer.common.FlagManager;
 import com.example.mandula.pocketsoccer.common.GameParameters;
 import com.example.mandula.pocketsoccer.game.BasicComputerPlayer;
 import com.example.mandula.pocketsoccer.game.CollisionDetector;
@@ -73,7 +74,7 @@ public class GameActivity extends AppCompatActivity {
             }
 
         } else {
-            gameState = new GameState(gameParameters);
+            gameState = new GameState(this, gameParameters);
         }
 
         gameAudioManager = new GameAudioManager(this,
@@ -88,7 +89,7 @@ public class GameActivity extends AppCompatActivity {
 
         gameView = findViewById(R.id.game_view_id);
         gameView.initView(gameState, gameMoveResolver);
-
+        gameView.prepareImages(gameParameters.getFirstPlayerCountry(), gameParameters.getSecondPlayerCountry());
         gameThreadWorker.setGameMoveResolver(gameMoveResolver);
         gameThreadWorker.setGameView(gameView);
 

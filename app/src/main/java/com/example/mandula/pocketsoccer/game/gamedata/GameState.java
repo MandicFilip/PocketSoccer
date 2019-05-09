@@ -1,8 +1,11 @@
 package com.example.mandula.pocketsoccer.game.gamedata;
 
+import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 
+import com.example.mandula.pocketsoccer.common.FlagManager;
 import com.example.mandula.pocketsoccer.common.GameOutcome;
 import com.example.mandula.pocketsoccer.common.GameParameters;
 import com.example.mandula.pocketsoccer.game.GameMoveResolver;
@@ -54,7 +57,7 @@ public class GameState implements Serializable {
     private static final float AWAY_DISK_2_X = 0.85f;
     private static final float AWAY_DISK_2_Y = 0.8f;
 
-    public GameState(GameParameters gameParameters) {
+    public GameState(Context context, GameParameters gameParameters) {
         this.gameParameters = gameParameters;
 
         String homeUser = gameParameters.getFirstPlayerName();
@@ -65,13 +68,17 @@ public class GameState implements Serializable {
         homeDisks = new ArrayList<>();
         awayDisks = new ArrayList<>();
 
-        homeDisks.add(new Disk(Color.BLUE, HOME_DISK_0_X, HOME_DISK_0_Y * screenHeight));
-        homeDisks.add(new Disk(Color.BLUE, HOME_DISK_1_X, HOME_DISK_1_Y * screenHeight));
-        homeDisks.add(new Disk(Color.BLUE, HOME_DISK_2_X, HOME_DISK_2_Y * screenHeight));
+        homeDisks.add(new Disk(HOME_DISK_0_X, HOME_DISK_0_Y * screenHeight, true));
 
-        awayDisks.add(new Disk(Color.RED, AWAY_DISK_0_X, AWAY_DISK_0_Y * screenHeight));
-        awayDisks.add(new Disk(Color.RED, AWAY_DISK_1_X, AWAY_DISK_1_Y * screenHeight));
-        awayDisks.add(new Disk(Color.RED, AWAY_DISK_2_X, AWAY_DISK_2_Y * screenHeight));
+        homeDisks.add(new Disk(HOME_DISK_1_X, HOME_DISK_1_Y * screenHeight, true));
+
+        homeDisks.add(new Disk(HOME_DISK_2_X, HOME_DISK_2_Y * screenHeight, true));
+
+        awayDisks.add(new Disk(AWAY_DISK_0_X, AWAY_DISK_0_Y * screenHeight, false));
+
+        awayDisks.add(new Disk(AWAY_DISK_1_X, AWAY_DISK_1_Y * screenHeight, false));
+
+        awayDisks.add(new Disk(AWAY_DISK_2_X, AWAY_DISK_2_Y * screenHeight, false));
 
         ball = new Ball(BALL_X, BALL_Y * screenHeight);
 
