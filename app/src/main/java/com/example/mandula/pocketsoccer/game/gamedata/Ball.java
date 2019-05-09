@@ -3,8 +3,13 @@ package com.example.mandula.pocketsoccer.game.gamedata;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
+
+import com.example.mandula.pocketsoccer.common.FlagManager;
 
 public class Ball extends CircleFigure {
+
+    private Drawable ballImage;
 
     public Ball(float x, float y) {
         super(x, y);
@@ -13,9 +18,13 @@ public class Ball extends CircleFigure {
 
     @Override
     public void drawCircle(Canvas canvas, Paint paint, int width, int height, boolean turn) {
-        paint.setColor(Color.YELLOW);
+        if (ballImage == null) {
+            ballImage = FlagManager.getBallImage();
+            if (ballImage == null) return;
+        }
 
-        //TODO change with image
-        canvas.drawCircle(x * width, y * width, r * canvas.getWidth(), paint);
+        ballImage.setBounds((int)((x - r) * width), (int)((y - r) * width),
+                (int)((x + r) * width), (int)((y + r) * width));
+        ballImage.draw(canvas);
     }
 }

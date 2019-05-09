@@ -12,9 +12,6 @@ import com.example.mandula.pocketsoccer.R;
 import java.util.HashMap;
 
 public class FlagManager {
-
-    //TODO add gray images
-
     private static HashMap<String, Integer> flagsMap = new HashMap<>();
     private static HashMap<String, Integer> greyFlagsMap = new HashMap<>();
 
@@ -22,6 +19,8 @@ public class FlagManager {
     private static Drawable homeGreyFlag;
     private static Drawable awayNormalFlag;
     private static Drawable awayGreyFlag;
+
+    private static Drawable ballImage;
 
     static {
         flagsMap.put("Argentina", R.drawable.argentina);
@@ -63,11 +62,13 @@ public class FlagManager {
         return greyFlagsMap.get(country);
     }
 
-    public static void prepareFlagsForGame(Context context, String home, String away) {
+    public static void prepareFlagsAndBallForGame(Context context, String home, String away) {
         homeNormalFlag = context.getResources().getDrawable(getCountryFlag(home), null);
         homeGreyFlag = context.getResources().getDrawable(getCountryGreyFlag(home), null);
         awayNormalFlag = context.getResources().getDrawable(getCountryFlag(away), null);
         awayGreyFlag = context.getResources().getDrawable(getCountryGreyFlag(away), null);
+
+        ballImage = context.getResources().getDrawable(R.drawable.ball, null);
     }
 
     public static Drawable getHomeNormalFlag() {
@@ -84,5 +85,9 @@ public class FlagManager {
 
     public static Drawable getAwayGreyFlag() {
         return awayGreyFlag;
+    }
+
+    public static Drawable getBallImage() {
+        return ballImage;
     }
 }

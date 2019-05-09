@@ -1,14 +1,10 @@
 package com.example.mandula.pocketsoccer.game.gamedata;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.util.Log;
 
-import com.example.mandula.pocketsoccer.common.FlagManager;
 import com.example.mandula.pocketsoccer.common.GameOutcome;
 import com.example.mandula.pocketsoccer.common.GameParameters;
-import com.example.mandula.pocketsoccer.game.GameMoveResolver;
 
 import java.io.Serializable;
 import java.util.ArrayList;

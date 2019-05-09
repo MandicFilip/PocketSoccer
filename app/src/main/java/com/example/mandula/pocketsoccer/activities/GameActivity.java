@@ -11,7 +11,6 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.example.mandula.pocketsoccer.R;
-import com.example.mandula.pocketsoccer.common.FlagManager;
 import com.example.mandula.pocketsoccer.common.GameParameters;
 import com.example.mandula.pocketsoccer.game.BasicComputerPlayer;
 import com.example.mandula.pocketsoccer.game.CollisionDetector;

@@ -4,12 +4,14 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.example.mandula.pocketsoccer.R;
+import com.example.mandula.pocketsoccer.common.Background;
 import com.example.mandula.pocketsoccer.common.FlagManager;
-import com.example.mandula.pocketsoccer.common.GameEndCondition;
 import com.example.mandula.pocketsoccer.game.gamedata.Disk;
 import com.example.mandula.pocketsoccer.game.gamedata.GameState;
 import com.example.mandula.pocketsoccer.game.gamedata.GoalPost;
@@ -20,6 +22,8 @@ public class GameView extends View {
 
     private static final float DISK_TOUCH_RADIUS_CONST = 1.2f;
     private static final float RESULT_TEXT_SIZE = 64;
+
+    private Drawable background;
 
     private boolean printStatusScreen = false;
     private boolean printResumeScreen = false;
@@ -53,7 +57,7 @@ public class GameView extends View {
     }
 
     public void prepareImages(String home, String away) {
-        FlagManager.prepareFlagsForGame(context, home, away);
+        FlagManager.prepareFlagsAndBallForGame(context, home, away);
     }
 
     public void setPrintResumeScreen(int resumeGameCounter) {
@@ -74,6 +78,15 @@ public class GameView extends View {
             height = getHeight();
             gameState.setScreenHeightProportion(height / (width * 1f), height);
         }
+
+        if (gameState.getGameParameters().getBackground() == Background.HARD)
+            background = context.getResources().getDrawable(R.drawable.hard_court, null);
+
+        if (gameState.getGameParameters().getBackground() == Background.INDOOR)
+            background = context.getResources().getDrawable(R.drawable.indoor_court, null);
+
+        if (gameState.getGameParameters().getBackground() == Background.GRASS)
+            background = context.getResources().getDrawable(R.drawable.grass_court, null);
     }
 
     public void repaintState() {
@@ -89,7 +102,7 @@ public class GameView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        paintBackground();
+        paintBackground(canvas);
 
         if (gameState == null) return;
 
@@ -116,6 +129,8 @@ public class GameView extends View {
     }
 
     private void printNormalState(Canvas canvas) {
+        if (background == null) return;
+
         ArrayList<GoalPost> posts = gameState.getLeftGoalPosts();
 
         for (GoalPost goalPost: posts) {
@@ -159,8 +174,10 @@ public class GameView extends View {
                 width * 2 / 5.0f, height * 0.5f, paint);
     }
 
-    private void paintBackground() {
-        setBackgroundColor(Color.GREEN);
+    private void paintBackground(Canvas canvas) {
+        if (background == null) return;
+        background.setBounds(0, 0, width, height);
+        background.draw(canvas);
     }
 
     private void printResult(Canvas canvas) {

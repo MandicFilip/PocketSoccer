@@ -1,17 +1,12 @@
 package com.example.mandula.pocketsoccer.game.gamedata;
 
-import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
-import android.view.View;
-import android.widget.ImageView;
 
 import com.example.mandula.pocketsoccer.common.FlagManager;
 
 public class Disk extends CircleFigure {
-    //TODO change with images
     private Drawable colorFlag;
     private Drawable greyFlag;
 

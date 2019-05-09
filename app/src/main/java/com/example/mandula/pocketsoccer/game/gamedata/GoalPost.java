@@ -14,7 +14,7 @@ public class GoalPost implements Serializable {
     private float x; //left end position
     private float y; //y coordinate
 
-    public static final int STROKE_SIZE = 32;
+    public static final int STROKE_SIZE = 24;
 
     public GoalPost(float length, float x, float y) {
         this.length = length;
