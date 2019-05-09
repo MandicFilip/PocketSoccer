@@ -32,14 +32,14 @@ public class GameAudioManager implements AudioManager.OnAudioFocusChangeListener
 
     public void playDiskAndBallCollisionSound() {
         if (audioEnabled && !goalSoundPlaying) {
-            playSound(R.raw.audio_test, 500, 0);
+            playSound(R.raw.ball_kick, 500, 0);
         }
     }
 
     public void playGoalScoredSound() {
         if (audioEnabled) {
             goalSoundPlaying = true;
-            playSound(R.raw.audio_test, 1500, 1);
+            playSound(R.raw.score, 2000, 1);
         }
     }
 
