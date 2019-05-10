@@ -20,9 +20,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class PreGameActivity extends AppCompatActivity {
-
-    //TODO make it more interactive
-
     private LeftPreGameAdapter leftPreGameAdapter;
     private RightPreGameAdapter rightPreGameAdapter;
 

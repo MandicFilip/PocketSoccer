@@ -1,6 +1,7 @@
 package com.example.mandula.pocketsoccer.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,7 +17,7 @@ import java.util.ArrayList;
 
 public class RightPreGameAdapter extends RecyclerView.Adapter<RightPreGameAdapter.RightHolder> {
 
-    private static final int AWAY_DEFAULT_INDEX = 2;
+    private static final int AWAY_DEFAULT_INDEX = 1;
 
     private Context context;
 
@@ -44,6 +45,8 @@ public class RightPreGameAdapter extends RecyclerView.Adapter<RightPreGameAdapte
 
     @Override
     public void onBindViewHolder(@NonNull RightHolder rightHolder, int i) {
+        if (selected == i) rightHolder.getTextView().setTextColor(Color.RED);
+        else rightHolder.getTextView().setTextColor(Color.BLACK);
         rightHolder.getTextView().setText(countryNames.get(i));
         rightHolder.onBind(countryNames.get(i));
     }
@@ -60,6 +63,9 @@ public class RightPreGameAdapter extends RecyclerView.Adapter<RightPreGameAdapte
 
         public RightHolder(@NonNull final View itemView) {
             super(itemView);
+            textView = itemView.findViewById(R.id.right_text_view_country_id);
+            imageView = itemView.findViewById(R.id.right_image_view_country_id);
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -68,15 +74,15 @@ public class RightPreGameAdapter extends RecyclerView.Adapter<RightPreGameAdapte
                         if (countryNames.get(i).equals(country)) {
                             selected = i;
                             itemView.setSelected(true);
+                            textView.setTextColor(Color.RED);
                         } else {
                             itemView.setSelected(false);
+                            textView.setTextColor(Color.BLACK);
                         }
                     }
+                    notifyDataSetChanged();
                 }
             });
-
-            textView = itemView.findViewById(R.id.right_text_view_country_id);
-            imageView = itemView.findViewById(R.id.right_image_view_country_id);
         }
 
         public void onBind(String country) {

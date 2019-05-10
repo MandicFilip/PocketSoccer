@@ -13,6 +13,8 @@ import java.util.ArrayList;
 
 public class GameThreadWorker implements Runnable {
 
+    //TODO fix speed parameters
+
     private class TimeForMoveTicker implements Runnable{
 
         private boolean activeMoveTimer = true;
