@@ -173,14 +173,4 @@ public class MainActivity extends AppCompatActivity {
         viewModel.insert(game);
     }
 
-    private void printOnToast(GameParameters gameParameters) {
-        String str = gameParameters.toString();
-        String[] arr = str.split(";");
-        StringBuilder stringBuilder = new StringBuilder();
-        for (String anArr : arr) {
-            stringBuilder.append(anArr);
-            stringBuilder.append("\n");
-        }
-        Toast.makeText(this, stringBuilder.toString(), Toast.LENGTH_LONG).show();
-    }
 }

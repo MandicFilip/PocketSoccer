@@ -7,8 +7,8 @@ import android.graphics.drawable.Drawable;
 import com.example.mandula.pocketsoccer.common.FlagManager;
 
 public class Disk extends CircleFigure {
-    private Drawable colorFlag;
-    private Drawable greyFlag;
+    private transient Drawable colorFlag;
+    private transient Drawable greyFlag;
 
     private boolean home;
 

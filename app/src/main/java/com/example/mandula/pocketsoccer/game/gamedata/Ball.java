@@ -9,7 +9,7 @@ import com.example.mandula.pocketsoccer.common.FlagManager;
 
 public class Ball extends CircleFigure {
 
-    private Drawable ballImage;
+    private transient Drawable ballImage;
 
     public Ball(float x, float y) {
         super(x, y);
