@@ -1,0 +1,46 @@
+<resources>
+    <string name="app_name">PocketSoccer</string>
+    <string name="resume_game_button_text">Resume game</string>
+    <string name="choose_background_text">Choose background:</string>
+    <string name="grass_radio_text">Grass</string>
+    <string name="hard_radio_text">Hard</string>
+    <string name="indoor_radio_text">Indoor</string>
+    <string name="choose_game_end_condition_text">Choose game end condition:</string>
+    <string name="goals_radio_text">Goals</string>
+    <string name="time_radio_text">Time</string>
+    <string name="enter_goals_time_hint">Enter goals or minutes number</string>
+    <string name="choose_ball_speed_text">Choose ball speed:</string>
+    <string name="slow_radio_text">Slow</string>
+    <string name="medium_radio_text">Medium</string>
+    <string name="fast_radio_text">Fast</string>
+    <string name="choose_game_type_text">Choose game type:</string>
+    <string name="change_button_on_parameters_text">Change</string>
+    <string name="discard_button_on_parameters_text">Discard</string>
+    <string name="default_button_on_parameters_text">Default</string>
+    <string name="guest_player_name_text">Guest player name</string>
+    <string name="home_player_name_text">Home player name</string>
+    <string name="start_game_button_text">START GAME</string>
+    <string name="cancel_game_button_id">CANCEL GAME</string>
+    <string name="reset_global_stats_text">RESET</string>
+    <string name="back_button_global_stats_text">BACK</string>
+    <string name="global_statistics_banner">GLOBAL STATISTICS</string>
+    <string name="face_to_face_statistics_banner">FACE TO FACE STATISTICS</string>
+    <string name="face_to_face_back_button_id">BACK</string>
+    <string name="face_to_face_reset_button_id">RESET</string>
+    <string name="default_text">Result</string>
+    <string name="default_face_to_face_result">default result</string>
+    <string name="single_player_text_id">Singleplayer</string>
+    <string name="multi_player_text_id">Multiplayer</string>
+    <string-array name="countries">
+        <item>Argentina</item>
+        <item>Brazil</item>
+        <item>England</item>
+        <item>France</item>
+        <item>Germany</item>
+        <item>Italy</item>
+        <item>Poland</item>
+        <item>Russia</item>
+        <item>Serbia</item>
+        <item>Spain</item>
+    </string-array>
+</resources>
