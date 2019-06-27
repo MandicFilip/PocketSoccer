@@ -1,5 +1,5 @@
 # PocketSoccer
-This Android app is multiplayer game for two players. Project is done in Java programming langueage using API 26 (Android Oreo 8.0.0).
+This Android app is multiplayer game for two players. Project is done in Java programming language using API 26 (Android Oreo 8.0.0).
 
 This is a university project on a Software Engineering Department fourth year subject called Programming mobile devices, at the School of Electrical Engineering from University of Belgrade.
 
